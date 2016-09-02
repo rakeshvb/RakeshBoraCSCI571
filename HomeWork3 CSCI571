@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Super HTML!</title>
+	<style >
+	body
+	{
+		font-family: "Trebuchet MS";	
+		
+		margin:0px;
+	}
+	.ho{
+		background-color: #000000;
+		border-radius: 10px 0px 0px 10px;
+	}
+	.thover:hover{
+		 color: #C9434F;
+	}
+	.divhover:hover
+	{
+		background-color: #C9434F;
+		color: #ffffff;
+	}
+	
+	.section2:hover p{
+		background-color: #C9434F;
+		color: #ffffff;
+	}
+	
+
+	.section2:hover u {
+		background-color: #C9434F;
+		color: yellow;
+	}
+	
+	.section2:hover b {
+		background-color: #C9434F;
+		color: yellow;
+	}
+	.section2:hover{
+		background-color: #C9434F;
+		color: yellow;
+	}
+
+	.section2:hover{
+		background-color: #C9434F;
+		color: #ffffff;
+	}
+
+	p
+	{
+		font-family: "Trebuchet MS";
+	}
+	.leh
+	{
+		font-family: "Trebuchet MS";
+	}
+	div.a{
+		background-color: #C9434F;
+	}
+
+ul {
+    list-style-type: none;
+	
+	overflow: hidden;
+	background-color: #000305;
+	border-radius: 5px 5px 5px 5px;
+	
+	height: auto;
+}
+
+li {
+    float: left;
+    
+}
+
+li a {
+    display: block;
+    color: #fbf6fb;
+    text-align: center;
+    padding: 15px 15px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+	
+    background-color: #C9434F;
+}
+hr.me {
+   	width:100%;
+	border-color:#EEEEEE;
+	display:inline-block;
+	margin-right: 0px;
+    margin-bottom: 10px;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+hr.blog {
+	width: 75%;
+	border-color: #FFF;
+	margin-right: 00%;
+	margin-left: 27%;
+	padding-left: 0px;
+   	
+}
+
+.container
+{
+	margin-right: auto;
+	margin-left: auto;
+	height: auto;
+	position: relative;
+	
+	width: 940px;
+	
+}
+.social_hr
+{	width: 500px;
+	color: #F4E3E3;
+	padding-bottom: 1px;
+	background-color: #FFFFFF;
+}
+.alink
+{
+	text-decoration:none; 
+	color:#444444;
+}
+</style>
+</head>
+<body background="http://cs-server.usc.edu:45678/hw/hw3/images/bg.png">
+
+<div class="container" align="center" >
+
+	<div align="left" >
+
+	
+		<div style="margin:0px 0px 40px 0px;" >
+			<p ><font size="12" style="color:black;padding-left:15px;font-weight:bold;"><b>Super HTML! </b></font><font size=4 style="color:black;padding-left:0px;font-weight:bold;"><b>HTML in the </b></font><br>
+			<font size=4 style="color:black;padding-left:15px;font-weight:bold;"><b>year <u>2016</u></b></font>
+			</p>
+		</div>
+	
+
+		<div style="margin:0px 0px 40px 0px;">
+			<ul>
+			  <li class="ho"><a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#home" target="_blank" class="leh"><font style="font-size:20px;">home</font></a></li>
+			  <li><a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#portfolio" target="_blank" class="leh"><font style="font-size:20px;">portfolio</font></a></li>
+			  <li><a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#blog" target="_blank" class="leh"><font style="font-size:20px;">blog</font></a></li>
+			  <li><a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#contact" target="_blank" class="leh"><font style="font-size:20px;">contact</font></a></li>
+			</ul>
+		</div>
+
+		<div  style="background-color:#ffffff; overflow: hidden; padding: 28px; margin:0px 0px 0px 0px; border-radius: 10px 10px 10px 10px; " >
+
+			<div style=" float:left;" class=""><font class="leh" size=5 style="color:#C9434F;">
+				<b>Feautured Article</b><br><br></font>
+				<font  style="font-weight:bold; font-size:22px"><b>HTML is Super Magazine!</b></font><br><br>
+				Discover how to use graceful degradation and progressive<br> enhancement techniques to achieve an outstanding, cross-<br>browser website today!
+			</div>
+			<div style=" float:left;" align="middle" class=""> <img src="http://cs-server.usc.edu:45678/hw/hw3/images/sm-logo.gif" border="2" style="border-color:#D3D3D3; margin-top:30px; margin-left:200px;" align="middle"></img>
+			</div>
+		</div>
+
+
+
+		<div  style="background-color:#ffffff; overflow: hidden; padding: 40px; margin:30px 0px 40px 0px; border-radius: 10px 10px 10px 10px;" >
+		
+			<div class="section2">
+			
+				<div style="width:250px;float:left;" >
+
+					<p class="leh" style="padding-left:30px;">10th July 2016</p>
+					<p class="leh" style="padding-left:30px;"> By <font style="color:#C9434F" ><u>Enrique Ram&iacute;rez</u></font></p>
+				</div>
+
+				<div style="width:600px; float:left;" class="">
+					<p class="leh" style="color:#C9434F; font-size:22px;"><br><b>CSS3 is the ticket</b></p>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis nunc<br>
+					vitae libero iacuis elementum. Nullam et justo <font style="color:#C9434F;"><u>non sapien </u></font>dapibus blandit nec et<br>
+					leo. Ut ut malesuada tellus.
+					</p>	
+				</div>
+
+			</div>
+
+			<div style="width:800px; margin:0px; margin-left:30px">
+				<hr class="me">
+			</div>
+
+			<div class="section2">
+				<div style="width:250px; float:left;" class="">
+					<p class="leh" style="padding-left:30px;">9th April 2016</p>
+					<p class="leh" style="padding-left:30px;"> By <span style="color:#C9434F" ><u>Enrique Ram&iacute;rez</u></span></p>
+				</div>
+
+				<div style="width:600px; float:left;" class="">
+					<p class="leh" style="color:#C9434F; font-size:22px;"><br><b>HTML5 is the language</b></p>
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis nunc<br>
+					vitae libero iacuis elementum. Nullam et justo <font style="color:#C9434F;"><u>non sapien </u></font>dapibus blandit nec et<br>
+					leo. Ut ut malesuada tellus.
+					</p>
+				</div>
+			</div>
+			<!--
+			<div style="width:940px;" clas="section2">
+				
+			</div>
+			<div style="width:940px">
+				<hr>
+			</div>
+			<div style="width:940px">
+				
+			</div>
+			-->
+		</div>
+
+		<div style="overflow: hidden; padding: 0px 0px 40px 0px; margin:0px; border-radius: 10px 10px 10px 10px;" >
+			<div style="width:350px; float:left;">
+				<div style="margin-bottom:10px;"><font class="leh" style="color:#C9434F; font-size:22px;"><b>blogroll</b><br></font></div>
+				<div>
+					<span style="padding-left:50px;" class=""><a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#html5" target="_blank" class="leh alink divhover" >HTML5 Doctor
+					</a></span>
+					<br/>
+				</div>
+				<div>
+				<br/>
+					<span style="padding-left:50px;" class=""><a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#smashing" target="_blank" class="leh alink divhover" >Smashing Magzine</a>
+					</div>
+				<div>
+					
+					<br/>
+				</div>
+			</div>
+
+			<div style="width:350px; float:left; margin-top:15px;"><br>
+				<a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#spec" target="_blank" ]" class="leh alink divhover"><font >HTML5 Spec (working draft)</font></a>
+				
+			</div>
+			
+			<div style="width:200px; float:left">
+				
+				
+					<span class="leh" style="color:#C9434F; font-size:22px; padding-left:50px;"><b>social</b></span>
+					<div style="margin-left: 94px;">
+					<div class=""><img  src="http://cs-server.usc.edu:45678/hw/hw3/images/facebook.png" style="vertical-align: middle;">
+					<a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#facebook" target="_blank" class="leh alink divhover" style="vertical-align: middle;">  facebook</a> </div>
+					<hr class="social_hr">
+					<div class=""><img  src="http://cs-server.usc.edu:45678/hw/hw3/images/twitter.png" style="vertical-align: middle;">
+					<a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#twitter" target="_blank" class="leh alink divhover" style="vertical-align: middle;" > twitter</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+		<div  style="background-color:#ffffff; overflow: hidden; padding: 22px; margin:0px 0px 0px 0px; border-radius: 10px 10px 10px 10px;" >
+			<div style="width:230px 	; float:left;"><font class="leh" style="color:#C9434F; font-size:20px; font-weight: 900;">Super 		Magazine<br></font>
+					<font style="font-weight:550;">
+					Amazing Magazine
+					</font>
+				
+			</div>
+
+			<div style="width:80px; float:left;"><img src="http://cs-server.usc.edu:45678/hw/hw3/images/avatar.gif" />
+				
+			</div>
+
+			<div><p style="margin-top: initial;"><font style="font-weight:590;">Super Magazine is a website and blog that offers resources and advice to web developers and web designers. It was founded by Jimmy Jantz.</p>
+			</div>
+			
+		</div>
+		<p style="float:right; margin-right:0px;"><b>2005-2016 <font style="color:#C9434F;"><u>Super Magzine</u></font>.</b></p>
+
+
+
+	</div>
+
+</div>
+
+</body>
+</html>
