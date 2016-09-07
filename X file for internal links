@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div>
+	<p id="home"><div  style="height:500px;">
+		<p>This is home link</p>
+	</div></p>
+	<p id="portfolio"><div  style="height:500px";>
+		<p>This is portfolio link</p>
+	</div></p>
+	<p id="blog"><div  style="height:500px;"">
+		<p >This is Blog Link</p>
+	</div></p>
+	<p id="contact" ><div style="height:500px";>
+		<p>This is contact link</p>
+	</div></p>
+	<p id="html5"><div  style="height:500px;">
+		<p>This is HTML5 Doctor</p>
+	</div></p>
+	<p id="super"><div  style="height:500px;">
+		<p>This is Super Magzine</p>
+	</div></p>
+	<p id="spec"><div  style="height:500px;">
+		<p>This is HTML5 spec</p>
+	</div></p>
+	<p id="facebook" ><div style="height:500px;">
+		<p>This is facebook</p>
+	</div></p>
+	<p id="twitter"><div  style="height:500px;">
+		<p>this is twitter</p>
+	</div></p>
+</div>
+</body>
+</html>
