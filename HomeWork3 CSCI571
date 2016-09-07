@@ -7,45 +7,15 @@
 
 
  
-         div.section2{
-            
-            /*border-radius:5px;*/
-            margin-left:30px;
-            float: left; 
-            display:inline-flex;
-            flex-flow: row nowrap;
-            /*margin-bottom: 10px;*/
-        }
- 
-
+    div.section2{
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        /*border-radius:5px;*/
+        margin-left:30px;
+        float: left; 
+        display:inline-flex;
+        flex-flow: row nowrap;
+        /*margin-bottom: 10px;*/
+    }
 
 
 	body
@@ -123,7 +93,7 @@ ul {
 	border-radius: 5px 5px 5px 5px;
 	padding: 0px;
 	padding-left: 50px;
-	height: auto;
+	height: 45px;
 }
 
 li {
@@ -145,12 +115,14 @@ li a:hover:not(.active) {
 }
 hr.me {
    	width:100%;
-	border-color:#EEEEEE;
+	color:#625252;
 	display:inline-block;
 	margin-right: 0px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     margin-left: 30px;
-    margin-top: 10px;
+    margin-top: 00px;
+    border-top: 0px solid;
+    border-left: none;
 }
 hr.blog {
 	width: 75%;
@@ -173,9 +145,10 @@ hr.blog {
 }
 .social_hr
 {	
-	color: #F4E3E3;
-	padding-bottom: 1px;
-	background-color: #FFFFFF;
+	
+	
+	width:160px;color:#FDFDFC;margin:0px;border-top: 2px solid;border-top-color: #F7EBEB;border-bottom-color: #FFFFFF;border-bottom: 1.5px solid;border-left: none;
+
 }
 .alink
 {
@@ -210,29 +183,29 @@ hr.blog {
 		<div  style="background-color:#ffffff; overflow: hidden; padding: 28px; margin:0px 0px 0px 0px; border-radius: 10px 10px 10px 10px; " >
 
 			<div style=" float:left;" class=""><font class="leh" size=5 style="color:#C9434F;">
-				<b>Feautured Article</b><br><br></font>
-				<font  style="font-weight:bold; font-size:22px"><b>HTML is Super Magazine!</b></font><br><br>
+				<b>Featured Article</b><br><br></font>
+				<font  style="font-weight:bold; font-size:22px; "><b>HTML in Super Magazine!</b></font><br><br>
 				Discover how to use graceful degradation and progressive<br> enhancement techniques to achieve an outstanding, cross-<br>browser website today!
 			</div>
-			<div style=" float:left;" align="middle" class=""> <img src="http://cs-server.usc.edu:45678/hw/hw3/images/sm-logo.gif" border="2" style="border-color:#D3D3D3; margin-top:30px; margin-left:200px;" align="middle"></img>
+			<div style=" float:left;" align="middle" class=""> <img src="http://cs-server.usc.edu:45678/hw/hw3/images/sm-logo.gif" border="2" style="border-color:#D3D3D3; margin-top:30px; margin-left:185px;" align="middle"></img>
 			</div>
 		</div>
 
 
 
-		<div  style="background-color:#ffffff; overflow: hidden; padding: 40px; margin:30px 0px 40px 0px; border-radius: 10px 10px 10px 10px;" >
+		<div  style="background-color:#ffffff; overflow: hidden; padding-left:30px; padding-top: 15px; padding-bottom: 15px; padding-right: 0px; margin:30px 0px 40px 0px; border-radius: 10px 10px 10px 10px;" >
 		
-			<div class="section2">
+			<div class="section2" style="padding-top: 15px;padding-bottom: 15px; margin-bottom:-14px;">
 			
 				<div style="width:250px;float:left;" >
 
 					<p class="leh" style="padding-left:30px; margin:0px;">10th July 2016</p>
-					<p class="leh" style="padding-left:30px; margin-top:7px;"> By <font style="color:#C9434F" ><u>Enrique Ram&iacute;rez</u></font></p>
+					<p class="leh" style="padding-left:30px; margin-top:4px;"> By <font style="color:#C9434F" ><u>Enrique Ram&iacute;rez</u></font></p>
 				</div>
 
 				<div style="width:600px; float:left;" class="">
-					<p class="leh" style="color:#C9434F; font-size:22px; margin:0px;"><br><b>CSS3 is the ticket</b></p>
-					<p>
+					<p class="leh" style="color:#C9434F; font-size:22px; margin:0px; margin-top:-4px;"><br><b>CSS3 is the ticket</b></p>
+					<p style="margin:0px; margin-top:10px;">
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis nunc<br>
 					vitae libero iacuis elementum. Nullam et justo <font style="color:#C9434F;"><u>non sapien </u></font>dapibus blandit nec et<br>
 					leo. Ut ut malesuada tellus.
@@ -241,58 +214,25 @@ hr.blog {
 
 			</div>
 
-			<div style="width:800px; margin:0px; margin-left:30px">
-				<hr class="me">
+			<div style="width:800px; margin:0px; margin-left:60px">
+				<hr class="me" style="margin:0px;">
 			</div>
 
-			<div class="section2">
+			<div class="section2" style="padding-top: 15px; padding-bottom: 15px; margin-top:-4px;">
 				<div style="width:250px; float:left;" class="">
 					<p class="leh" style="padding-left:30px; margin:0px;">9th April 2016</p>
-					<p class="leh" style="padding-left:30px; margin-top:7px;"> By <span style="color:#C9434F" ><u>Enrique Ram&iacute;rez</u></span></p>
+					<p class="leh" style="padding-left:30px; margin-top:4px;"> By <span style="color:#C9434F" ><u>Enrique Ram&iacute;rez</u></span></p>
 				</div>
 
 				<div style="width:600px; float:left;" class="">
-					<p class="leh" style="color:#C9434F; font-size:22px; margin:0px;"><br><b>HTML5 is the language</b></p>
-					<p>
+					<p class="leh" style="color:#C9434F; font-size:22px; margin:0px; margin-top:-4px;"><br><b>HTML5 is the language</b></p>
+					<p style="margin:0px; margin-top:10px; margin-bottom:0px;">
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis nunc<br>
 					vitae libero iacuis elementum. Nullam et justo <font style="color:#C9434F;"><u>non sapien </u></font>dapibus blandit nec et<br>
 					leo. Ut ut malesuada tellus.
 					</p>
 				</div>
 			</div>
-			
-<!--
-			<div class="section2" style="margin-top:10px" >
-                    
-                        <div style="width:220px;margin-left:10px;float: left;">
-                            <p>10th July 2016<br>By <font class="ul_color">Enrique Ram&iacute;rez</font></p>
-                        </div>
-                        
-                        <div style="width:630px;margin-left:0px;float: left;">
-                            <p class="RedcolorBigFont" style="margin-top:32px">CSS3 is the ticket</p>
-                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis nunc<br>vitae libero iaculis elemenatum. Nullam et justo <font class="ul_color">non sapien</font> dapibus blandit nec et<br> leo. Ut ut malesuada tellus.</p>
-                        </div>
-                        
-                    </div>
-                    <div style="width:800px;margin-left:30px;float:left;">
-                        <hr style="width: 858px;margin:0px;margin-left:30px">
-                    </div>
-                    <div class="section2" style="margin-bottom:20px" >
-                    
-                        <div style="width:220px;margin-left:10px;float: left;">
-                            <p>9th April 2016<br>By <font class="ul_color">Enrique Ram&iacute;rez</font></p>
-                        </div>
-                        
-                        <div style="width:630px;margin-left:0px;float: left;">
-                            <br>
-                            <p class="RedcolorBigFont" style="margin-top:12px">HTML5 is the language</p>
-                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis nunc<br>vitae libero iaculis elemenatum. Nullam et justo <font class="ul_color">non sapien</font> dapibus blandit nec et<br> leo. Ut ut malesuada tellus.<p>
-                        </div>
-                        
-                    </div>
-
-			-->
-
 			
 
 
@@ -311,65 +251,23 @@ hr.blog {
                     
                     <div style="width:960px; float:left;margin:0px;">
                         <div style="width:200px; float:left; margin-left:40px;">
-                            <p class="links" style="margin:0px; margin-top:10px;"><a href="http://scf.usc.edu/~rakeshvb/x.html#html5" target="_blank" class="leh alink">HTML5 Doctor</a></p>
-                            <p class="links" style="margin:0px; margin-top:10px;"><a href="http://scf.usc.edu/~rakeshvb/x.html#smashing" target="_blank" class="leh alink">Super Magazine</a></p>
+                            <p class="links" style="margin:0px; padding:5px;"><a href="http://scf.usc.edu/~rakeshvb/x.html#html5" target="_blank" class="leh alink">HTML5 Doctor</a></p>
+                            <p class="links" style="margin:0px; padding:5px;"><a href="http://scf.usc.edu/~rakeshvb/x.html#super" target="_blank" class="leh alink">Super Magazine</a></p>
                         </div>
                         <div style="width:300px; float:left;margin-left:50px;">
-                            <p class="links" style="width:200px; margin:0px; margin-top:10px;"><a href="http://scf.usc.edu/~rakeshvb/x.html#spec" target="_blank" class="leh alink"> HTML5 Spec (working draft)</a></p>
+                            <p class="links" style="width:200px; margin:0px; margin-left:3px; padding: 5px; "><a href="http://scf.usc.edu/~rakeshvb/x.html#spec" target="_blank" class="leh alink"> HTML5 Spec (working draft)</a></p>
                         </div>
                         <div style="width:180px; float:left; margin-left:170px;">
                         
-                            <p class="links" style="margin:0px; margin-top:10px;"><a href="http://scf.usc.edu/~rakeshvb/x.html#facebook" target="_blank" class="leh alink" style="vertical-align: middle;"><img src="http://cs-server.usc.edu:45678/hw/hw3/images/facebook.png" style="vertical-align: middle;"> facebook</a></p>
-                            <hr class="social_hr">
-                            <p class="links" style="margin:0px;"><a href="http://scf.usc.edu/~rakeshvb/x.html#twitter" target="_blank" class="leh alink" style="vertical-align: middle;"><img src="http://cs-server.usc.edu:45678/hw/hw3/images/twitter.png" style="vertical-align: middle;"> twitter</a></p>
+                            <p class="links" style="margin:0px; margin-bottom: -5px; margin-left:18px; padding:5px;"><a href="http://scf.usc.edu/~rakeshvb/x.html#facebook" target="_blank" class="leh alink" style="vertical-align: middle; "><img src="http://cs-server.usc.edu:45678/hw/hw3/images/facebook.png" style="vertical-align: middle;"> facebook</a></p>
+                            <hr class="social_hr" style="margin-bottom: 1.5px; margin-top: 5px; margin-left:18px;">
+                            <p class="links" style="margin:0px; margin-left:18px; margin-top: -3px; padding:5px;"><a href="http://scf.usc.edu/~rakeshvb/x.html#twitter" target="_blank" class="leh alink" style="vertical-align: middle; "><img src="http://cs-server.usc.edu:45678/hw/hw3/images/twitter.png" style="vertical-align: middle;"> twitter</a></p>
                             <br><br>
                         </div>
                     </div>
                 </div>
 
-		<!--
-		<div style="overflow: hidden; padding: 0px 0px 40px 0px; margin:0px; border-radius: 10px 10px 10px 10px;" >
-			<div style="width:350px; float:left;">
-				<div style="margin-bottom:10px;"><font class="leh" style="color:#C9434F; font-size:22px;"><b>blogroll</b><br></font></div>
-				<div>
-					<span style="padding-left:50px;" class=""><a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#html5" target="_blank" class="leh alink divhover" >HTML5 Doctor
-					</a></span>
-					<br/>
-				</div>
-				<div>
-				<br/>
-					<span style="padding-left:50px;" class=""><a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#smashing" target="_blank" class="leh alink divhover" >Smashing Magzine</a>
-					</div>
-				<div>
-					
-					<br/>
-				</div>
-			</div>
-
-			<div style="width:350px; float:left; margin-top:15px;"><br>
-				<a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#spec" target="_blank" ]" class="leh alink divhover"><font >HTML5 Spec (working draft)</font></a>
-				
-			</div>
-			
-			<div style="width:200px; float:left">
-				
-				
-					<span class="leh" style="color:#C9434F; font-size:22px; padding-left:50px;"><b>social</b></span>
-					<div style="margin-left: 94px;">
-					<div >
-						<p class="links"><img  src="http://cs-server.usc.edu:45678/hw/hw3/images/facebook.png" style="vertical-align: middle;">
-						<a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#facebook" target="_blank" class="leh alink" style="vertical-align: middle;">  facebook</a> </p>
-					</div>
-					<hr class="social_hr">
-					<div >
-						<p class="links"><img  src="http://cs-server.usc.edu:45678/hw/hw3/images/twitter.png" style="vertical-align: middle;">
-						<a href="file:///C:/Users/Rakesh/Desktop/csci%20571/x.html#twitter" target="_blank" class="leh alink"" style="vertical-align: middle;" > twitter</a></p>
-					</div>
-				</div>
-			</div>
-
-		</div>
--->
+		
 
 		<div  style="background-color:#ffffff; overflow: hidden; padding: 22px; margin:0px 0px 0px 0px; border-radius: 10px 10px 10px 10px;" >
 			<div style="width:230px 	; float:left;"><font class="leh" style="color:#C9434F; font-size:20px; font-weight: 900;">Super 		Magazine<br></font>
@@ -383,17 +281,18 @@ hr.blog {
 				
 			</div>
 
-			<div><p style="margin-top: initial;"><font style="font-weight:590;">Super Magazine is a website and blog that offers resources and advice to web developers and web designers. It was founded by Jimmy Jantz.</p>
+			<div><p style="margin-top: initial; margin-left:10px;"><font style="">Super Magazine is a website and blog that offers resources and advice to web developers and web designers. It was founded by Jimmy Jantz.</p>
 			</div>
 			
 		</div>
-		<p style="float:right; margin-right:0px;">2005-2016 <font style="color:#C9434F;"><u>Super Magzine</u></font>.</p>
+		<p style="float:right; margin-right:0px; font-weight:900px;">2005-2016 <font style="color:#C9434F;"><u>Super Magzine</u></font>.</p>
 
 
 
 	</div>
 
 </div>
-
+ <NOSCRIPT></NOSCRIPT>
 </body>
+
 </html>
