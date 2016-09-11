@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<SCRIPT type="text/javascript">
+		var xmlDoc;
+		function loadXML(url) 
+		{
+			if (window.XMLHttpRequest)
+			{
+				// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp=new XMLHttpRequest();
+			}
+			else
+			{
+				// code for IE6, IE5
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.open("GET",url,false); 
+			xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState==4) {
+						if (xmlhttp.status==404){
+							alert("File doesn't exist!");
+						}
+					}
+				}
+
+			xmlhttp.send(); //properties of XMLHTTPRequest 
+			xmlDoc=xmlhttp.responseXML;
+			var domP = new DOMParser();
+			var domtext = domP.parseFromString(xmlhttp.responseText, "text/xml");
+			if (domtext.documentElement.nodeName == "parsererror")
+			{
+                alert("Error in XML File " ); 
+                return false;   
+        	}
+			return xmlDoc;
+		}
+
+		
+
+		function showxml(url)
+		{
+			if(url === "" || url===null)
+			{
+				alert("url should not be empty");
+				exit();
+			}
+
+			xmlData = loadXML(url);
+			if(xmlData == false){
+				return xmlData;
+			}
+			if(xmlData == null){
+
+			}
+
+		
+			
+
+        	rows=xmlData.getElementsByTagName("Row");
+
+			/*if(rows.length === 0)
+			{
+				alert("empty XML file");
+			}*/
+
+        	ELEMENT_NODE=1;
+        	root=xmlData.documentElement;
+
+
+
+			html_text = "<html><head></head><body style='overflow:auto;'>";
+			html_text += "<table border='2'>";
+
+			
+			var workbook= xmlData.getElementsByTagName("Workbook")[0];
+			var table= workbook.children[0];
+
+			if(table.childElementCount>1)
+			{
+
+				var head_er=table.children[0];
+				if(head_er.childElementCount>1)
+				{
+					rowlist=rows.item(0).childNodes;
+			
+			html_text+="<tr id='headfile'>";
+
+
+			var col=new Array();
+			for(i=0;i<head_er.childElementCount;i++)
+			{
+		    			col[i] = head_er.children[i].childNodes[0].nodeValue;
+		    			html_text += "<th>" + col[i] + "</th>";
+		    }
+
+			
+			for( j=0; j<rows.length;j++)
+			{
+				rowlist = rows.item(j).childNodes;
+				
+				html_text+="<tr id='in_row'>";
+
+					for(k=0; k<rowlist.length;k++)
+					{
+						if(rowlist.item(k).nodeName == "Slot"){
+							sl = rowlist.item(k).firstChild.nodeValue;
+							html_text += "<td>" + sl + "</td>";
+						}
+						if(rowlist.item(k).nodeName == "Newspaper"){
+							np = rowlist.item(k).firstChild.nodeValue;
+							html_text += "<td>" + np + "</td>";			
+						}
+						if(rowlist.item(k).nodeName == "Location"){
+							html_text+="<td> <ul>";
+							for(l=0;l<rowlist.item(k).childElementCount;l++)
+							{
+							lc1 = rowlist.item(k).children[l].childNodes[0].nodeValue;
+							html_text += "<li>" + lc1 + "</li>";
+							}	
+							html_text+="</ul> </td>";
+						}
+						if(rowlist.item(k).nodeName == "HomePage"){
+							hyperlink = rowlist.item(k).firstChild.nodeValue;
+							html_text += "<td><a href='" + hyperlink + "'>" + hyperlink + "</a></td>";
+						}
+						if(rowlist.item(k).nodeName == "Logo"){
+							log = rowlist.item(k).firstChild.nodeValue;
+							html_text += "<td><img src='" + rowlist.item(k).firstChild.nodeValue +"'></td>";
+						}
+					}
+					html_text+="</tr>";
+			}
+
+			result_window = window.open("","","scrollbars=yes,width=400,height=600");
+			result_window.document.open();
+			result_window.document.write(html_text);
+			result_window.document.close();
+			}
+			else
+				alert("XML file is Empty");
+
+			
+			
+			
+
+
+		}
+
+
+			
+
+		}
+
+	</SCRIPT>
+</head>
+<body>
+<body>
+	<div align="center">
+		<h2>Enter URL for Newspaper List XML File </h2>
+		<form name="myForm">
+			<input type="text" id="URL" size="40">
+			<br /><br>
+			<input type="button" name="submit" value="Submit Query" onClick=showxml(document.getElementById("URL").value);>
+		</form>
+	</div>
+	<noscript>
+</body>
+</html>
