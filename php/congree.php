@@ -21,12 +21,21 @@
 		h1,p {text-align: center;}
 		
 		table{
-			border: 2px solid; 
+			border: 1px solid; 
 			text-align: center;
 			border-collapse: collapse;
 			margin: 0 auto; 
-			line-height: 20pt;
+			
 		}
+		#output_box1 th {
+            border: 1px solid ;
+
+            
+        }
+        #output_box1 td {
+            border: 1px solid ;
+            
+        }
 		
 	</style>
 	<SCRIPT TYPE="text/javascript">
@@ -74,25 +83,43 @@
 		var x = document.getElementById("mySelect").value;
     	document.getElementById("demo").innerHTML = x;
 	}
-	function showbilldetails(view_bill_details) {
-                document.getElementById("view_legislators_details_url").value = view_bill_details;
+	
+	function showlegislatordetails(view_legislator_details_url_) {
+                //alert("load " + view_legislator_details_url_);
+                document.getElementById("view_legislators_details_url").value = view_legislator_details_url_;
                 document.getElementById("search_form").submit();
             }
-	function resetVal()
+    function showBillDetails(obj) {
+                //alert("load " + view_legislator_details_url_);
+                document.getElementById("view_bill_details").value = obj;
+                document.getElementById("search_form").submit();
+            }
+     function resetVal()
 	{
-		var x = document.getElementById("mySelect").value;
+		document.getElementById("search_form").reset();
     	document.getElementById("demo").innerHTML = "Keyword*";
-
+    	document.getElementById("keyVal").value = "";
+    	document.getElementById("s1").checked = true;
+    	document.getElementById("s2").checked = false;
+//alert("i work");
+    	document.getElementById("mySelect").options[0].selected = true;
+    	
     	document.getElementById("mybox").innerHTML = "";
+    	
+    	
 	}
+	
 </SCRIPT>
 </head>
 <body>
 <h1>Congress Information Search</h1>
 <div >
-
+<?php
+error_reporting(0);
+$example = $_POST["cdb"];
+?>
 <form  method="post" id="search_form">
-<table align="center" style="border: 1px solid; text-align: center;width: 300px;
+<table align="center" style="border: 1px solid; text-align: center;width: 320px;
 			margin: 0 auto; line-height: 20pt;">
 <tr>
 <td>
@@ -100,47 +127,200 @@ Congress Database</td>
 <td>
 <select name="cdb" id="mySelect" onchange="myFunction()">
   <option value="" >Select your option</option>
-  <option value="State/Represntative*" name="Legislator">Legislator</option>
-  <option value="Committee ID*" name="Committees">Committees</option>
-  <option value="Bill ID*" name="Bills">Bills</option>
-  <option value="Amendment ID*" name="Amendments">Amendments</option>
-</select></td></tr>
+  <option value="State/Represntative*" name="Legislator" <?php if (isset($example) && $example=="State/Represntative*") echo "selected";?>>Legislator</option>
+  <option value="Committee ID*" name="Committees" <?php if (isset($example) && $example=="Committee ID*") echo "selected";?>>Committees</option>
+  <option value="Bill ID*" name="Bills" <?php if (isset($example) && $example=="Bill ID*") echo "selected";?>>Bills</option>
+  <option value="Amendment ID*" name="Amendments" <?php if (isset($example) && $example=="Amendment ID*") echo "selected";?>>Amendments</option>
+</select>
+</td></tr>
 <tr>
 <td>
 
-Chamber</td> <td><input type="radio" name="chamber" value="senate" checked="checked" />Senate <input type="radio" name="chamber" value="house"/>House</td></tr>
+Chamber</td> <td><input type="radio" name="chamber" value="senate" id="s1" checked="checked" />Senate <input type="radio" name="chamber" id="s2" value="house" <?php if (isset($_POST[ 'chamber']) && $_POST[ 'chamber']=='house' ){echo ' checked="checked"';}?>/>House
+
+</td>
+</tr>
 <tr>
 <td>
-<span name="keyword" id="demo" >Keyword*</span> 
-</td><td><input type="text" name="keyVal" /></td>
+<span name="keyword" id="demo" >
+<?php
+error_reporting(0);
+if($_POST["cdb"] == "State/Represntative"){
+                                        echo "State/Representative*";
+                                    }  
+                                    else if($_POST['cdb'] == "Committee ID*"){
+                                        echo "Committee ID*";
+                                    }
+                                    else if($_POST['cdb'] == "Bill ID*"){
+                                        echo "Bill ID*";
+                                    }
+                                    else if($_POST['cdb'] == "Amendment ID*"){
+                                        echo "Amendment ID*";
+                                    }
+                                    else{
+                                        echo "Keyword*";
+                                    }
+                                ?> </span> 
+</td><td><input type="text" name="keyVal" id="keyVal" value="<?php echo isset($_POST['keyVal']) ? $_POST['keyVal'] : '' ?>" /></td>
 </tr>
 <tr>
 <td></td><td>
-<input name="submit" id="btn" type="submit" value="search" onclick="testempty(this.form)" /> <input type="reset" onclick="resetVal()" />
+<input name="Search" id="btn" type="submit" value="Search" onclick="testempty(this.form)" /> <input type="reset" value="Clear" onclick="resetVal()" />
+
 <br/>
 </td></tr><tr>
 <td colspan="2">
 <div style="text-align:center">
-<a href="http://sunlightfoundation.com/" >Powerd by Sunlight Foundation</a></div></td></tr>
+<a href="http://sunlightfoundation.com/" target="_blank">Powerd by Sunlight Foundation</a></div></td></tr>
 </table>
-<input type="hidden" name="view_legislators_details_url" id = "view_legislators_details_url" value = ""/>
+ 
+    <input type="hidden" name="view_legislators_details_url" id = "view_legislators_details_url" value = ""/>
+    <input type="hidden" name="view_bill_details" id = "view_bill_details" value = ""/>
 </form>
+<br/>
 <br/>
 </div>
 <div id="mybox">
 <?php
-if(isset($_POST["submit"]))
+
+error_reporting(0);
+if($_POST["view_bill_details"] != "")
 {
-if(empty($congressDB) || empty($chamber) || empty($keyword)){
-		$str = "Please enter the following missing information";
-		echo "<SCRIPT TYPE='text/javascript'>alert($str);</SCRIPT>";
-	}
-	
+                        $url3 = $_POST["view_bill_details"];
+						#echo $url3;
+						$json=file_get_contents($url3);
+						$obj=json_decode($json,true);
+						$len=count($obj['results']);
+						if($len>0)
+                        {
+                        	
+                            $text1="<table  align=center style=\"width: 900px;\">";
+							$text1=$text1."<tr><td><br/></td></tr><tr>";
+							$billid=$obj['results'][0]['bill_id'];
+                            $text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Bill ID</td>";
+							$text1=$text1."<td style=\"text-align: left; padding-left:000px\">".$billid."</td></tr>";
+
+							$billt=$obj['results'][0]['short_title'];
+                            $text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Bill Title</td>";
+							$text1=$text1."<td style=\"text-align: left; padding-left:000px\">".$billt."</td></tr>";
+
+							$title=$obj['results'][0]['sponsor']['title'];
+							$fname=$obj['results'][0]['sponsor']['first_name'];
+							$lname=$obj['results'][0]['sponsor']['last_name'];
+							#echo $lname;
+							$full_name=$title." ".$fname." ".$lname;
+
+							
+                            $text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Sponsor</td>";
+							$text1=$text1."<td style=\"text-align: left; padding-left:000px\">".$full_name."</td></tr>";
+
+							$ion=$obj['results'][0]['introduced_on'];
+                            $text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Introduced on</td>";
+							$text1=$text1."<td style=\"text-align: left; padding-left:000px\">".$ion."</td></tr>";
+
+							$verName=$obj['results'][0]['last_version']['version_name'];
+							$lao=$obj['results'][0]['last_action_at'];
+                            $text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Last action with date </td>";
+							$text1=$text1."<td style=\"text-align: left; padding-left:000px\">".$verName." ".$lao."</td></tr>";
+
+							$pdf=$obj['results'][0]['last_version']['urls']['pdf'];
+							$st=$obj['results'][0]['short_title'];
+                            $text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Bill URL</td>";
+							$text1=$text1."<td style=\"text-align: left; padding-left:000px\"><a href=\"$pdf\" target=\"_blank\">".$st."</td></tr></table>";
+							echo $text1;
+                        }
+                        else{
+                            echo "<br/> The API returned zero results for the request.  Bill";
+                        }
+}
+
+if($_POST["view_legislators_details_url"] != "")
+{
+	#echo "rakesh is runnig";
+	#$b=$_POST["$bname"];
+
+	#$url="http://congress.api.sunlightfoundation.com/legislators?chamber=$chamb&state=$keyword&bioguide_id=$bname&apikey=b8ba30d18f3b48259227944edff23ca3";
+	$url2 = $_POST["view_legislators_details_url"];
+	#echo $url2;
+	$json=file_get_contents($url2);
+	$obj=json_decode($json,true);
+	$len=count($obj['results']);
+	if($len>0)
+		{	
+			
+			$text1="<table  align=center style=\"width: 900px;\">";
+			$text1=$text1."<tr><td><br/></td></tr><tr>";
+			$cid=$obj['results'][0]['bioguide_id'];
+
+			//https://theunitedstates.io/images/congress/225x275/
+			$url1="http://theunitedstates.io/images/congress/225x275/".$cid.".jpg";
+			#echo $url1;
+			$text1=$text1."<td colspan=2><img src=\"$url1\"></img></td></tr>";
+			$title=$obj['results'][0]['title'];
+			$fname=$obj['results'][0]['first_name'];
+			$lname=$obj['results'][0]['last_name'];
+			#echo $lname;
+			$full_name=$title." ".$fname." ".$lname;
+			$text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Full Name</td>";
+			$text1=$text1."<td style=\"text-align: left; padding-left:000px\">".$full_name."</td></tr>";
+			$term=$obj['results'][0]['term_end'];
+			$text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Term Ends on </td>";
+			$text1=$text1."<td style=\"text-align: left;\">". $term."</td></tr>";
+
+			$web=$obj['results'][0]['website'];
+			$text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Website</td>";
+			if($web=="")
+				$text1=$text1."<td>N/A</td></tr>";
+			else
+			$text1=$text1."<td style=\"text-align: left;\"><a href=\"$web\" target=\"_blank\">". $web."</a></td></tr>";
+
+			$office=$obj['results'][0]['office'];
+			$text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Office </td>";
+			$text1=$text1."<td style=\"text-align: left;\">". $office."</td></tr>";
+			
+			$facebook=$obj['results'][0]['facebook_id'];
+			//echo "$facebook";
+		 	$facebook_url = "http://www.facebook.com/".$facebook;
+		    
+			$text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Facebook</td>";
+			if($facebook=="")
+				$text1=$text1."<td style=\"text-align: left;\">N/A</td></tr>";
+			else
+			$text1=$text1."<td style=\"text-align: left;\"><a href=\"$facebook_url\" target=\"_blank\">".$fname." ".$lname."</a></td></tr>";
+
+			$twitter=$obj['results'][0]['twitter_id'];
+			$twitter_url = "http://www.twitter.com/".$twitter;
+			$text1=$text1."<tr><td style=\"text-align: left; padding-left:200px\">Twitter</td>";
+			if($twitter=="")
+				$text1=$text1."<td style=\"text-align: left;\">N/A</td></tr>";
+			else
+			$text1=$text1."<td style=\"text-align: left;\"><a href=\"$twitter_url\" target=\"_blank\">".$fname." ".$lname."</a></td></tr>";
+
+			
+			$text1=$text1."</table>";
+			echo $text1;
+		}
+	else
+		{
+			echo "<p>The API returned zero results for the request. </p>";
+		}
+
+}
+
+
+if(isset($_POST["Search"]) && $_POST["chamber"] && $_POST["keyVal"] && $_POST["cdb"])
+{
+
+//if(empty($congressDB) || empty($chamber) || empty($keyword)){
+//		$str = "Please enter the following missing information";
+//		echo "<SCRIPT TYPE='text/javascript'>alert($str);</SCRIPT>";
+	//}
+	#echo $_POST['keyVal'];
 	$congressDB = $_POST['cdb'];
 	//echo "$congressDB";
 	$chamb = $_POST['chamber'];
 	$flag=0;
-	$keyword = $_POST['keyVal'];
+	$keyword = trim($_POST['keyVal']);
 	if(strcmp($congressDB, "State/Represntative*") == 0)
 	{
 	//echo $keyword;
@@ -266,7 +446,7 @@ if(empty($congressDB) || empty($chamber) || empty($keyword)){
 	else
 	{
 	$url = "http://congress.api.sunlightfoundation.com/legislators?chamber=$chamb&state=$keyword&apikey=b8ba30d18f3b48259227944edff23ca3";
-	echo $url;
+	#echo $url;
 	}
 
 	$json=file_get_contents($url);
@@ -280,29 +460,32 @@ if(empty($congressDB) || empty($chamber) || empty($keyword)){
 	//
 	$obj=json_decode($json,true);
 	//print_r($obj);
-	$len=count($student_id = $obj['results']);
+	$len=count($obj['results']);
 	//echo $len;
 	if($len>0)
 	{
 	//print_r($obj['results'][0]['bioguide_id']);
 	//echo "<br/>";
-	$text="<table border=1 align=center style=\"width: 900px;\">";
-	$text=$text."<tr border=1><th>Name</th><th>State</th><th>Chamber</th><th>Details</th></tr>";
+	$text="<table border=1 align=center style=\"width:900px;\">";
+	#echo "<table border=1 align=center style=\"width: 900px;\">";
+	$text=$text."<tr ><th>Name</th><th>State</th><th>Chamber</th><th>Details</th></tr>";
 	//print_r($obj['results'][0]['chamber']);
 	for ($x = 0; $x <= $len-1; $x++)
 	{
 
-		$text=$text."<tr border=2>";
+		$text=$text."<tr >";
+		#echo "<td>". $cname."</td>";
 		$fname=$obj['results'][$x]['first_name'];
 		$lname=$obj['results'][$x]['last_name'];
-		$text=$text."<td>". $fname . " ".$lname."</td>";
+		$text=$text."<td style=\"text-align:left; padding-left:80px;\">". $fname . " ".$lname."</td>";
 		$sname=$obj['results'][$x]['state_name'];
-		$text=$text."<td>". $sname."</td>";
+		$text=$text."<td style=\"text-align:left; padding-left:80px;\">". $sname."</td>";
 		$cname=$obj['results'][$x]['chamber'];
-		$text=$text."<td>". $cname."</td>";
+		$text=$text."<td style=\"text-align:left; padding-left:50px;\">". $cname."</td>";
 		$bname=$obj['results'][$x]['bioguide_id'];
 		$bid="http://congress.api.sunlightfoundation.com/legislators?chamber=$chamb&state=$keyword&bioguide_id=$bname&apikey=b8ba30d18f3b48259227944edff23ca3";
-		$text=$text."<td><a href=\"javascript:showlegislatordetails('".$bid."')\">More Details</a></td>";
+		$_POST["view_legislators_details_url"] = $bid;
+		$text=$text."<td style=\"text-align:left; padding-left:80px;\"><a href=\"javascript:showlegislatordetails('".$bid."')\">View Details</a></td>";
 		$text=$text."</tr>";
 		//print_r($fname);
 		//print_r($obj['results'][0]['first_name']);
@@ -315,7 +498,7 @@ if(empty($congressDB) || empty($chamber) || empty($keyword)){
 	}
 	else
 	{
-		echo "<p>No Records have been found. </p>";
+		echo "<p>The API returned zero results for the request. </p>";
 	}
 	}
 elseif (strcmp($congressDB, "Committee ID*") == 0) {
@@ -324,13 +507,13 @@ elseif (strcmp($congressDB, "Committee ID*") == 0) {
 	//echo $url;
 	$json=file_get_contents($url);
 	$obj=json_decode($json,true);
-	$len=count($student_id = $obj['results']);
+	$len=count($obj['results']);
 	//echo $len;
 	if($len>0)
 	{
-	$text="<table border=1 align=center style=\"width: 900px;\">";
+	$text="<table border=1 align=center style=\"width:900px;\">";
 	$text=$text."<tr border=1><th>Committee ID</th><th>Committee Name</th><th>Chamber</th></tr>";
-	$text=$text."<tr border=1>";
+	$text=$text."<tr >";
 	$cid=$obj['results'][0]['committee_id'];
 	$text=$text."<td>". $cid."</td>";
 	$name=$obj['results'][0]['name'];
@@ -343,7 +526,7 @@ elseif (strcmp($congressDB, "Committee ID*") == 0) {
 	}
 	else
 	{
-		echo "<p>No Records have been found. </p>";
+		echo "<p>The API returned zero results for the request. </p>";
 	}
 }
 
@@ -351,33 +534,33 @@ elseif (strcmp($congressDB, "Committee ID*") == 0) {
 elseif (strcmp($congressDB, "Bill ID*") == 0) {
 	# code...
 	$url = "http://congress.api.sunlightfoundation.com/bills?bill_id=$keyword&chamber=$chamb&apikey=b8ba30d18f3b48259227944edff23ca3";
-	//echo $url;
+	#echo $url;
 	$json=file_get_contents($url);
 	$obj=json_decode($json,true);
-	$len=count($student_id = $obj['results']);
+	$len=count($obj['results']);
 	//echo $len;
 	if($len>0)
 	{
-	$text="<table border=1 align=center style=\"width: 900px;\">";
+	$text="<table border=1 align=center style=\"width:900px;\">";
 	$text=$text."<tr border=1><th>Bill ID</th><th>Short Title</th><th>Chamber</th><th>Details</th></tr>";
-	$text=$text."<tr border=1>";
+	$text=$text."<tr >";
 	$cid=$obj['results'][0]['bill_id'];
 	$text=$text."<td>". $cid."</td>";
 	$name=$obj['results'][0]['short_title'];
 	$text=$text."<td>". $name."</td>";
 	$name1=$obj['results'][0]['chamber'];
 	$text=$text."<td>". $name1."</td>";
-	$bname=$obj['results'][0]['urls'][2];
+	$bname=$obj['results'][0]['urls'];
 		//$bid="http://congress.api.sunlightfoundation.com/legislators?chamber=$chamb&state=$keyword&bioguid
 //e_id=$bname&apikey=b8ba30d18f3b48259227944edff23ca3";
-	$text=$text."<td><a href=".$bname.">Details</a>"."</td>";
+	$text=$text."<td><a href=\"javascript:showBillDetails('".$url."')\">View Details</a>"."</td>";
 	$text=$text."</tr>";
 	$text=$text."</table>";
 	echo $text;
 	}
 	else
 	{
-		echo "<p>No Records have been found. </p>";
+		echo "<p>The API returned zero results for the request. </p>";
 	}
 
 }
@@ -387,13 +570,13 @@ elseif (strcmp($congressDB, "Amendment ID*") == 0) {
 	//echo $url;
 	$json=file_get_contents($url);
 	$obj=json_decode($json,true);
-	$len=count($student_id = $obj['results']);
+	$len=count($obj['results']);
 	//echo $len;
 	if($len>0)
 	{
-	$text="<table border=1 align=center style=\"width: 900px;\">";
+	$text="<table border=1 align=center style=\"width:900px;\">";
 	$text=$text."<tr border=1><th>Amendment ID</th><th>Amendment Name</th><th>Chamber</th><th>Introduced on</th></tr>";
-	$text=$text."<tr border=1>";
+	$text=$text."<tr>";
 	$cid=$obj['results'][0]['amendment_id'];
 	$text=$text."<td>". $cid."</td>";
 	$name=$obj['results'][0]['amendment_type'];
@@ -401,85 +584,23 @@ elseif (strcmp($congressDB, "Amendment ID*") == 0) {
 	$name1=$obj['results'][0]['chamber'];
 	$text=$text."<td>". $name1."</td>";
 	$bname=$obj['results'][0]['introduced_on'];
-	$bid="http://congress.api.sunlightfoundation.com/legislators?chamber=$chamb&state=$keyword&bioguid
-//e_id=$bname&apikey=b8ba30d18f3b48259227944edff23ca3";
-	$text=$text."<td>".$bid."</td>";
+	
+	$text=$text."<td>".$bname."</td>";
 	$text=$text."</tr>";
 	$text=$text."</table>";
 	echo $text;
 	}
 	else
 	{
-		echo "<p>No Records have been found. </p>";
+		echo "<p>The API returned zero results for the request. </p>";
 	}
 
 }
 
 	}
-?>
-<?php
-
-if(isset($_POST["view_legislators_details_url"]))
-{
-	#echo "rakesh is runnig";
-	#$b=$_POST["$bname"];
-
-	$url="http://congress.api.sunlightfoundation.com/legislators?chamber=$chamb&state=$keyword&bioguide_id=$bname&apikey=b8ba30d18f3b48259227944edff23ca3";
-	$json=file_get_contents($url);
-	$obj=json_decode($json,true);
-	$len=count($student_id = $obj['results']);
-	if($len>0)
-	{
-	$text1="<table  align=center style=\"width: 900px;\">";
-	$text1=$text1."<tr>";
-	$cid=$obj['results'][0]['bioguide_id'];
-
-	//https://theunitedstates.io/images/congress/225x275/
-	$url1="http://theunitedstates.io/images/congress/225x275/".$cid.".jpg";
-	#echo $url1;
-	$text1=$text1."<td colspan=2><img src=\"$url1\"></img></td></tr>";
-	$title=$obj['results'][0]['title'];
-	$fname=$obj['results'][0]['first_name'];
-	$lname=$obj['results'][0]['last_name'];
-	#echo $lname;
-	$full_name=$title." ".$fname." ".$lname;
-	$text1=$text1."<tr><td>Full Name</td>";
-	$text1=$text1."<td>".$full_name."</td></tr>";
-	$term=$obj['results'][0]['term_end'];
-	$text1=$text1."<tr><td>Term Ends on </td>";
-	$text1=$text1."<td>". $term."</td></tr>";
-
-	$web=$obj['results'][0]['website'];
-	$text1=$text1."<tr><td>Website</td>";
-	$text1=$text1."<td><a href=\"$web\">". $web."</a></td></tr>";
-
-	$office=$obj['results'][0]['office'];
-	$text1=$text1."<tr><td>Office </td>";
-	$text1=$text1."<td>". $office."</td></tr>";
-	
-	$facebook=$obj['results'][0]['facebook_id'];
-	$text1=$text1."<tr><td>Website</td>";
-	if($facebook=="")
-		$text1=$text1."<td>N/A</td></tr>";
-	else
-	$text1=$text1."<td><a href=\"$facebook\">".$fname." ".$lname."</a></td></tr>";
-
-	$twitter=$obj['results'][0]['twitter_id'];
-	$text1=$text1."<tr><td>Website</td>";
-	$text1=$text1."<td><a href=\"$twitter\">".$fname." ".$lname."</a></td></tr>";
-
-	
-	$text1=$text1."</table>";
-	echo $text1;
-	}
-	else
-	{
-		echo "<p>No Records have been found. </p>";
-	}
-
-}
 
 ?>
+
 
 
 </div>
