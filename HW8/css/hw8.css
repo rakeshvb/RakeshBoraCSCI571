@@ -1,0 +1,99 @@
+.container-fluid
+{
+	margin-bottom: -20px;
+	padding-bottom: 0px;
+}
+
+.sidebar-nav
+{
+	background: black;
+	list-style: none;
+	height: 100%;
+
+}
+#wrapper #menu {
+	width: 250px;
+	visibility: visible;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+
+}
+
+#wrapper.toggled
+{
+	overflow: none;
+}
+
+#wrapper.toggled #menu {
+	width: 0px;
+	visibility: collapse;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+
+}
+
+#wrapper.toggled .sidebar-nav {
+	padding-left: 0px;
+	visibility: collapse;
+
+}
+
+#wrapper.toggled .sidebar-nav li{
+    visibility: collapse;
+}
+ul {
+    -webkit-padding-start: 0px;
+}
+.col-sx-1
+{
+        padding-right: 0px;
+    padding-left: 0px; 
+}
+.sidebar-nav {
+    position: absolute;
+    width: 250px;
+    margin: 0;
+    list-style: none;
+    padding-top: 00px;
+}
+
+.sidebar-nav li {
+    text-indent: 0px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #6F6F6F;
+}
+
+#output
+{
+	position: relative;
+	margin-left: 250px;
+	margin-right: 0px;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+	width: auto;
+}
+#wrapper.toggled #output 
+{
+	margin-left: 0px;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+
+}
+
+.Icon{
+    height:30px;
+    width:30px;
+}
