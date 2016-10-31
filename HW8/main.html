@@ -196,8 +196,8 @@
                                                                         </div>
                                                                         
                                                                             <div class="text-center">
-                            <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
-                        </div>
+                                                                                <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
+                                                                            </div>
                                                                         
                                                                     </div>
                                                                 </div>
@@ -251,8 +251,8 @@
                                                                     </div>
                                                                     
                                                                         <div class="text-center">
-                            <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
-                        </div>
+                                                                            <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
+                                                                         </div>
                                                                     
                                                                 </div>
 
@@ -303,8 +303,8 @@
                                                                         </div>
                                                                         
                                                                         <div class="text-center">
-                            <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
-                        </div>
+                                                                            <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
+                                                                        </div>
                                                                     
                                                                     </div>
                                                                 </div>
@@ -389,10 +389,10 @@
                                                             <td>Term</td>
                                                             <td>
                                                             <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:{{term_progress}}%">
-      {{term_progress}}%
-    </div>
-  </div></td>
+                                                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:{{term_progress}}%">
+                                                                        {{term_progress}}%
+                                                                </div>
+                                                            </div></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Office</td>
@@ -436,6 +436,166 @@
                         </div>
 
                         <div id="bill_details_section" ng-controller="full_bills_controller">
+                            <div class="row">
+                                <div class="col-xs-1">
+                                    <h3>Bills</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <hr>
+                                </div>
+                            </div>
+                          
+                            <div class="carousel slide" id="bill_by_state_carousal" data-interval="false">
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item active">
+                                        <div class="panel-group">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <!-- Nav tabs -->
+                                                    <ul class="nav nav-tabs" role="tablist">
+                                                        <li role="presentation" class="active">
+                                                            <a href="#actBills" aria-controls="actBills" role="tab" data-toggle="tab">Active Bills</a>
+                                                        </li>
+                                                        <li role="presentation">
+                                                            <a href="#newBills" aria-controls="newBills" role="tab" data-toggle="tab">New Bills</a>
+                                                        </li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div id="bill_controller_div" >
+                                                        <!-- Tab panes -->
+                                                        <div class="tab-content">
+                                                            <div role="tabpanel" class="tab-pane active" id="actBill">
+
+                                                               
+                                                                <div class="row">
+                                                                    <div class="col-xs-12 panel-group">
+
+                                                                        <div class="panel panel-default">
+                                                                            
+                                                                            <div class="panel-heading">
+                                                                                <div class="row">
+                                                                                    <div class="col-xs-3">
+                                                                                        <h3>Active Bills</h3>
+                                                                                    </div>
+                                                                                    <div class="col-xs-3 col-xs-offset-6">
+                                                                                        <div class="form-group">
+                                                                                            <input type="text" ng-model="bill_search_text">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <br>
+                                                                            <div class="panel-body">
+                                                                                <table class="table">
+                                                                                    <thead>
+                                                                                        <th>Bill ID</th>
+                                                                                        <th>Bill Type</th>
+                                                                                        <th>Title</th>
+                                                                                        <th>Chamber</th>
+                                                                                        <th>Introduction On</th>
+                                                                                        <th>Sponsor</th>
+                                                                                        <th></th>
+                                                                                    </thead>
+
+                                                                                    <tbody>
+                                                                                        <tr dir-paginate="result in bills_committes_active | itemsPerPage: 10">
+                                                                                            
+                                                                                            <td>{{result.billID}}</td>
+                                                                                            <td>{{result.billType}}</td>
+                                                                                            
+                                                                                            <td><img ng-src="{{result.chamber_img_url}}" height="35px" width="35px" />{{result.cham}}</td>
+                                                                                            <td>{{result.introOn}}</td>
+                                                                                            <td>{{result.sponsor}}</td>
+                                                                                            
+                                                                                            <td>
+                                                                                                <input type="button" value="View Details" href="#legislator_by_state_carousal" ng-click="viewLegislatorDetails(result.bioguide_id)">
+                                                                                                
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                            <div class="text-center">
+                                                                                <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
+                                                                            </div>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Paginated table -->
+                                                            </div>
+                                                            <div role="tabpanel" class="tab-pane" id="newBill">
+
+                                                                <div class="panel-group">
+                                                                    <div class="panel panel-default">
+                                                                        <div class="panel-heading">
+                                                                            <div class="row">
+                                                                                <div class="col-xs-3">
+                                                                                    <h3>New Bills</h3>
+                                                                                </div>
+                                                                                <div class="col-xs-3 col-xs-offset-6">
+                                                                                    <div class="form-group">
+                                                                                        <input type="text" ng-model="bill_search_text">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="panel-body">
+                                                                            
+                                                                            <table class="table">
+                                                                                <thead>
+                                                                                        <th>Bill ID</th>
+                                                                                        <th>Bill Type</th>
+                                                                                        <th>Title</th>
+                                                                                        <th>Chamber</th>
+                                                                                        <th>Introduction On</th>
+                                                                                        <th>Sponsor</th>
+                                                                                        <th></th>
+                                                                                </thead>
+
+                                                                                <tbody>
+                                                                                    <tr dir-paginate="result in bills_committes_active | itemsPerPage: 10">
+                                                                                        
+                                                                                            <td>{{result.billID}}</td>
+                                                                                            <td>{{result.billType}}</td>
+                                                                                            
+                                                                                            <td><img ng-src="{{result.chamber_img_url}}" height="35px" width="35px" />{{result.cham}}</td>
+                                                                                            <td>{{result.introOn}}</td>
+                                                                                            <td>{{result.sponsor}}</td>
+                                                                                            
+                                                                                            <td>
+                                                                                                <input type="button" value="View Details" href="#legislator_by_state_carousal" ng-click="viewLegislatorDetails(result.bioguide_id)">
+                                                                                                
+                                                                                            </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                        <div class="text-center">
+                                                                            <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
+                                                                         </div>
+                                                                    
+                                                                </div>
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
 
                         </div>
 
