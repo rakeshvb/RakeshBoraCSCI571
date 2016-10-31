@@ -187,22 +187,11 @@ function getLegislatorDetails() {
 }
 
 function getBillDetails() {
-    //alert("Get Bill details");
-    $.ajax({
-        url: 'hw8.php', // replace by AWS's PHP URL
-        data: {
-            call: 'getBillDefaultDetails'
-        },
-        type: 'GET',
-        
-        success: function (response, status, xhr) {
-            alert("PHP CALL for bill default details succeeded " + response);
-        },
-        error: function (xhr, status, error) {
-            alert("PHP CALL for bill default details failed");
-        }
-    });
+    var scope = angular.element(document.getElementById('bill_controller_div')).scope();
+    scope.loadBillDetails();
 }
+
+
 
 function getCommitteesDetails() {
     //alert("Get Committies details");
@@ -465,8 +454,72 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
 });
 
 app.controller('full_bills_controller', function ($scope, $http, $element) {
-    $scope.bills_committes = [];
+    $scope.bills_committes_active = [];
+    $scope.bills_committes_new = [];
+
+
+    $scope.loadBillDetails = function () {
+        console.log("Before calling AJAX");
+        var httpRequest = $http({
+            method: "GET",
+            url: 'index.php?call=getBillDefaultDetails',
+            //            url: 'hw8.php?call=getLegislatorDefaultDetails',
+            data: {
+                call: 'getBillDefaultDetails'
+            },
+        }).then(function mySucces(response) {
+            console.log(response.data);
+            $res = (response.data);
+            if ($res["count"] > 0) {
+                $results = $res["results"];
+                for (var i = 0; i < $res["page"]["count"]; i++) {
+
+                    billID = $results[i]["bill_id"];
+                    billType = $results[i]["bill_type"];
+                    billTitle= $results[i]["official_title"];
+                    cham=$results[i]["chamber"];
+                    chamber_img_url="";
+                    if ($results[i]["chamber"] == "house") {
+                        
+                        chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/h.png";
+                    } else {
+                        
+                        chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/s.svg";
+                    }
+                    introOn=$results[i]["introduced_on"];
+                    sponsor=$results[i]["sponsor"]["title"]+","+$results[i]["sponsor"]["last_name"]+","+$results[i]["sponsor"]["first_name"];
+                     active=$results[i]["history"]["active"];                   
+                    newData = {
+                        "billID": billID,
+                        "billType": billType,
+                        "billTitle": billTitle,
+                        "cham": cham,
+                        "chamber_img_url": chamber_img_url,
+                        "introOn": introOn,
+                        "sponsor": sponsor
+                        };
+                    if(active==false)
+                        $scope.bills_committes_new.push(newData);
+                    else
+                        $scope.bills_committes_active.push(newData);
+                }
+            }
+            console.log("After loading");
+        });
+    };
+   // $scope.pageChangeHandler = function (num) {
+     //   console.log('legislator page changed to ' + num);
+    //};
+    $scope.viewLegislatorDetails = function (bioguide_id) {
+        //$("#legislator_by_state_carousal").carousel(1);
+        //        alert("Bioguide ID is " + bioguide_id);
+        //        document.getElementById("legislator_by_state_carousal").carousel(1);        
+        slideToNext();
+        getFullLegislatorDetails(bioguide_id);
+    }
 });
+
+
 
 
 function getFormattedDate(date) {
