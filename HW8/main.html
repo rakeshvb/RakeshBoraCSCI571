@@ -33,27 +33,27 @@
         
         <div id="wrapper">
             <div id="sidebar-wrapper">
-                <ul class="sidebar-nav nav-stacked nav-default nav-pills" id="menu">
-                    <li class="active">
-                    <a href="#" onclick="getLegislatorDetails()"><span class="fa fa-user" aria-hidden="true"></span> Legislators</a>
+                <ul class="sidebar-nav nav-stacked nav-default nav-pills nav" id="menu">
+                    <li class="active" role="presentation">
+                    <a href="#lagislator_details_section" onclick="getLegislatorDetails()" aria-controls="lagislator_details_section" role="tab" data-toggle="tab"><span class="fa fa-user" aria-hidden="true"></span> Legislators</a>
                        
                 </li>
-                <li>
-                    <a href="#" onclick="getBillDetails()"><span class="fa fa-file-o" ></span> Bills</a>
+                <li role="presentation">
+                    <a href="#bill_details_section" onclick="getBillDetails()" aria-controls="bill_details_section" role="tab" data-toggle="tab"><span class="fa fa-file-o" ></span> Bills</a>
                     
                 </li>
-                <li>
-                    <a href="#" onclick="getCommitteesDetails()"><span class="fa fa-sign-in" aria-hidden="true">Committees</a>
+                <li role="presentation">
+                    <a href="#committees_details_section" onclick="getCommitteesDetails()" aria-controls="committees_details_section" role="tab" data-toggle="tab"><span class="fa fa-sign-in" aria-hidden="true">Committees</a>
                 </li>
-                <li>
-                    <a href="#" onclick="getFavoritesDetails()"><span class="fa fa-star"></span>Favorites</a>
+                <li role="presentation">
+                    <a href="#favorites_details_section" onclick="getFavoritesDetails()" aria-controls="favorites_details_section" role="tab" data-toggle="tab"><span class="fa fa-star"></span>Favorites</a>
                 </li>
                     
                 </ul>
             </div>
-            <div id="output"  class="container-fluid xyz">
-                <div class="tab-content clearfix">
-                <div id="lagislator_details_section" ng-controller="legis">
+            <div id="output"  class="container-fluid xyz tab-content">
+                
+                <div role="tabpanel" class="tab-pane active" id="lagislator_details_section" ng-controller="legis">
                     
                     <div class="row">
                         <div class="col-xs-1">
@@ -433,7 +433,7 @@
                     </div>
                 </div>
 
-                <div id="bill_details_section" ng-controller="full_bills_controller">
+                <div  role="tabpanel" class="tab-pane" id="bill_details_section" ng-controller="full_bills_controller">
                     <div class="row">
                         <div class="col-xs-1">
                             <h3>Bills</h3>
@@ -500,17 +500,17 @@
                                                                             </thead>
 
                                                                             <tbody>
-                                                                                <tr dir-paginate="result in bills_committes_active | itemsPerPage: 10" pagination-id="first4">
+                                                                                <tr dir-paginate="result in bills_committes_active | filter : bill_search_text | itemsPerPage: 10" pagination-id="first4">
                                                                                     
                                                                                     <td>{{result.billID}}</td>
                                                                                     <td>{{result.billType}}</td>
-                                                                                    
+                                                                                    <td>{{result.billTitle}}</td>
                                                                                     <td><img ng-src="{{result.chamber_img_url}}" height="25px" width="25px" />{{result.cham}}</td>
                                                                                     <td>{{result.introOn}}</td>
                                                                                     <td>{{result.sponsor}}</td>
                                                                                     
                                                                                     <td>
-                                                                                        <input type="button" value="View Details" href="#legislator_by_state_carousal" ng-click="viewLegislatorDetails(result.bioguide_id)">
+                                                                                        <input type="button" value="View Details" href="#bill_details_section" ng-click="viewMeDetails(result.billID)">
                                                                                         
                                                                                     </td>
                                                                                 </tr>
@@ -557,17 +557,17 @@
                                                                         </thead>
 
                                                                         <tbody>
-                                                                            <tr dir-paginate="result in bills_committes_new | itemsPerPage: 10" pagination-id="first7">
+                                                                            <tr dir-paginate="result in bills_committes_new | filter : bill_search_text | itemsPerPage: 10" pagination-id="first7">
                                                                                 
                                                                                     <td>{{result.billID}}</td>
                                                                                     <td>{{result.billType}}</td>
-                                                                                    
+                                                                                    <td>{{result.billTitle}}</td>
                                                                                     <td><img ng-src="{{result.chamber_img_url}}" height="25px" width="25px" />{{result.cham}}</td>
                                                                                     <td>{{result.introOn}}</td>
                                                                                     <td>{{result.sponsor}}</td>
                                                                                     
                                                                                     <td>
-                                                                                        <input type="button" value="View Details" href="#legislator_by_state_carousal" ng-click="viewLegislatorDetails(result.bioguide_id)">
+                                                                                        <input type="button" value="View Details" href="#bill_details_section" ng-click="viewMeDetails(result.billID)">
                                                                                         
                                                                                     </td>
                                                                             </tr>
@@ -591,13 +591,78 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                        </div>
-                    </div>
 
+                            <div class="item">
+                                <div class="">
+
+                                    <button href="#bill_details_section" type="button" class="btn btn-default item1" aria-label="Left Align" onclick="slideToPrev1()">
+                                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                    </button>
+                                    <h3>Details</h3>
+                                    <div id="full_bill_controller_div" ng-controller="bill_controller">
+                                        <div class="col-xs-6" style="width:50%; height: 50%; display: inline-block;">
+                                            <table class="table">
+                                                <tr>
+                                                    <td class="col-xs-1">Bill ID</td>
+                                                    <td class="col-xs-5">{{ID}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-xs-1">Title</td>
+                                                    <td class="col-xs-5">{{tit}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-xs-1">Bill Type</td>
+                                                    <td class="col-xs-5">{{bType}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-xs-1">Sponsor</td>
+                                                    <td class="col-xs-5">{{name}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-xs-1">Chamber</td>
+                                                    <td class="col-xs-5">{{cham}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-xs-1">Status</td>
+                                                    <td class="col-xs-5">{{stat}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-xs-1">Introduced On</td>
+                                                    <td class="col-xs-5">{{introOn}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-xs-1">Congress URL ID</td>
+                                                    <td class="col-xs-5"><a href="{{conLink}}" target="_blank">Link</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-xs-1">Version Status</td>
+                                                    <td class="col-xs-5">{{version}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-xs-1">Bill URL</td>
+                                                    <td class="col-xs-5"><a href="{{pdf}}" target="_blank">Link</a></td>
+                                                </tr>
+                                                <!--<tr>
+                                                    <td>
+                                                        <embed width=500px height=500px src="{{pdf}}">
+                                                    </td>
+                                                    -->
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        
+                                        
+
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div id="committees_details_section" ng-controller="full_committees_controller">
+                <div role="tabpanel" class="tab-pane" id="committees_details_section" ng-controller="full_committees_controller">
                     <div class="row">
                         <div class="col-xs-1">
                             <h3>Committees</h3>
@@ -667,7 +732,7 @@
                                                                             </thead>
 
                                                                             <tbody>
-                                                                                <tr dir-paginate="result in comm | filter:{cham:'House'}| itemsPerPage: 10" pagination-id="first5">
+                                                                                <tr dir-paginate="result in comm | filter:{cham:'House'}| filter : com_search_text | itemsPerPage: 10" pagination-id="first5">
                                                                                     <td>Star</td>
                                                                                     <td><img ng-src="{{result.chamber_img_url}}" height="25px" width="25px" /><br>{{result.cham}}</td>
                                                                                     <td>{{result.commID}}</td>
@@ -723,7 +788,7 @@
                                                                         </thead>
 
                                                                         <tbody>
-                                                                            <tr dir-paginate="result in comm | filter:{cham:'Senate'} | itemsPerPage: 10" pagination-id="first8">
+                                                                            <tr dir-paginate="result in comm | filter:{cham:'Senate'} | filter : com_search_text |  itemsPerPage: 10" pagination-id="first8">
                                                                                 
                                                                                     <td>Star</td>
                                                                                     <td><img ng-src="{{result.chamber_img_url}}" height="25px" width="25px" /><br>{{result.cham}}</td>
@@ -775,7 +840,7 @@
                                                                         </thead>
 
                                                                         <tbody>
-                                                                            <tr dir-paginate="result in comm | itemsPerPage: 10" pagination-id="first9">
+                                                                            <tr dir-paginate="result in comm | filter : com_search_text | itemsPerPage: 10" pagination-id="first9">
                                                                                 
                                                                                     <td>Star</td>
                                                                                     <td><img ng-src="{{result.chamber_img_url}}" height="25px" width="25px" />{{result.cham}}</td>
@@ -811,10 +876,10 @@
                     </div>
                 </div>
 
-                <div id="favorites_details_section">
+                <div role="tabpanel" class="tab-pane" id="favorites_details_section">
 
                 </div>
-        </div>
+        
         </div>
     
 
