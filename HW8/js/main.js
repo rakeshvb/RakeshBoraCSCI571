@@ -17,6 +17,16 @@ function slideToNext() {
 function slideToPrev() {
     $("#legislator_by_state_carousal").carousel(0);
 }
+//added for second bill carousal
+function slideToNext1() {
+    $("#bill_details_section").carousel(1);
+    
+}
+//added for second bill carousal
+function slideToPrev1() {
+    $("#bill_details_section").carousel(0);
+}
+
 
 function abbrState(input, to) {
     var states = [
@@ -169,13 +179,9 @@ app.controller('legis', function ($scope, $http, $element) {
             console.log("After loading");
         });
     };
-   // $scope.pageChangeHandler = function (num) {
-     //   console.log('legislator page changed to ' + num);
-    //};
+   
     $scope.viewLegislatorDetails = function (bioguide_id) {
-        //$("#legislator_by_state_carousal").carousel(1);
-        //        alert("Bioguide ID is " + bioguide_id);
-        //        document.getElementById("legislator_by_state_carousal").carousel(1);        
+                 
         slideToNext();
         getFullLegislatorDetails(bioguide_id);
     }
@@ -197,8 +203,11 @@ function getCommitteesDetails() {
     var scope = angular.element(document.getElementById('commi_controller_div')).scope();
     scope.loadComDetails();
 }
-
-
+//added for second bill carousal
+function getFullBillDetails(bill_id) {
+    var scope = angular.element(document.getElementById('full_bill_controller_div')).scope();
+    scope.loadBillDetails(bill_id);
+}
 
 
 
@@ -206,6 +215,48 @@ function getFullLegislatorDetails(bioguide_id) {
     var scope = angular.element(document.getElementById('full_legislator_controller_div')).scope();
     scope.loadLegislatorDetails(bioguide_id);
 }
+
+
+app.controller('bill_controller', function ($scope, $http, $element) {
+    $scope.bill = [];
+
+    $scope.loadBillDetails = function (bill_id) {
+        //        console.log("Before calling AJAX");
+        var httpRequest = $http({
+            method: "GET",
+            url: 'index.php?call=getBDetails&bill_id=' + bill_id,
+            //            url: 'hw8.php?call=getLegislatorMemberDetails&bioguide_id=' + bioguide_id,
+            data: {
+                call: 'getBDetails'
+            },
+        }).then(function mySucces(response) {
+            console.log(response.data);
+            $res = (response.data);
+            if ($res["count"] > 0) {
+                    $result = $res["results"][0];
+                    $scope.bid = bill_id;
+                    $scope.ID=$result["bill_id"];
+                    $scope.tit=$result["official_title"];
+                    $scope.bType=$result["bill_type"];
+                    $scope.name = $result["title"] + ", "+$result["last_name"] + ", " + $result["first_name"];
+                    $scope.cham=$result["chamber"];
+                    $scope.stat = "";
+                    if($result["history"]["active"]==false)
+                        $scope.stat ="New";
+                    else
+                        $scope.stat ="Active";
+                    $scope.introOn=$result["introduced_on"];
+                    $scope.conLink=$result["urls"]["congress"];
+                    $scope.version=$result["last_version"]["version_name"];
+                    $scope.pdf=$result["last_version"]["urls"]["pdf"];
+                }
+            } );
+        };
+        $scope.viewMeDetails = function (bill_id) {
+               
+        slideToNext1();
+    }
+    });
 
 app.controller('full_legislator_controller', function ($scope, $http, $element) {
     $scope.legislator_committes = [];
@@ -429,7 +480,7 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
         slideToNext();
     }
 });
-
+//BILL CONTROLLER
 app.controller('full_bills_controller', function ($scope, $http, $element) {
     $scope.bills_committes_active = [];
     $scope.bills_committes_new = [];
@@ -489,12 +540,12 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
    // $scope.pageChangeHandler = function (num) {
      //   console.log('legislator page changed to ' + num);
     //};
-    $scope.viewLegislatorDetails = function (bioguide_id) {
+    $scope.viewMeDetails = function (bill_id) {
         //$("#legislator_by_state_carousal").carousel(1);
         //        alert("Bioguide ID is " + bioguide_id);
         //        document.getElementById("legislator_by_state_carousal").carousel(1);        
-        slideToNext();
-        getFullLegislatorDetails(bioguide_id);
+        slideToNext1();
+        getFullBillDetails(bill_id);
     }
 });
 
