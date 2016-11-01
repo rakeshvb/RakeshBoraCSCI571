@@ -121,6 +121,7 @@ app.controller('legis', function ($scope, $http, $element) {
             $res = (response.data);
             if ($res["count"] > 0) {
                 $results = $res["results"];
+                 $scope.legislator_results = [];
                 for (var i = 0; i < $res["count"]; i++) {
 
                     name = $results[i]["last_name"] + "," + $results[i]["first_name"];
@@ -190,42 +191,16 @@ function getBillDetails() {
     var scope = angular.element(document.getElementById('bill_controller_div')).scope();
     scope.loadBillDetails();
 }
-
-
+//getCommitteesDetails
 
 function getCommitteesDetails() {
-    //alert("Get Committies details");
-    $.ajax({
-        url: 'hw8.php', // replace by AWS's PHP URL
-        data: {
-            call: 'getCommitteesDefaultDetails'
-        },
-        type: 'GET',
-        success: function (response, status, xhr) {
-            alert("PHP CALL for committees default details succeeded " + response);
-        },
-        error: function (xhr, status, error) {
-            alert("PHP CALL for committees default details failed");
-        }
-    });
+    var scope = angular.element(document.getElementById('commi_controller_div')).scope();
+    scope.loadComDetails();
 }
 
-function getFavoritesDetails() {
-    //alert("Get Favorites details");
-    $.ajax({
-        url: 'hw8.php', // replace by AWS's PHP URL
-        data: {
-            call: 'getFavoritesDefaultDetails'
-        },
-        type: 'GET',
-        success: function (response, status, xhr) {
-            alert("PHP CALL for favorites default details succeeded");
-        },
-        error: function (xhr, status, error) {
-            alert("PHP CALL for favorites default details failed");
-        }
-    });
-}
+
+
+
 
 function getFullLegislatorDetails(bioguide_id) {
     var scope = angular.element(document.getElementById('full_legislator_controller_div')).scope();
@@ -252,7 +227,7 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
                 $scope.bioguide_id = bioguide_id;
 
                 $scope.legislator_image = "https://theunitedstates.io/images/congress/original/" + bioguide_id + ".jpg";
-                $scope.name = $result["title"] + ". " +
+                $scope.name = $result["title"] + ", " +
                     $result["last_name"] + ", " + $result["first_name"];
 
                 if ($result.hasOwnProperty("oc_email") == true) {
@@ -389,6 +364,7 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
                 } else {
                     count = $res["count"];
                 }
+                $scope.legislator_committees = [];
                 for (var i = 0; i < count; i++) {
 
                     chamber = $results[i]["chamber"];
@@ -423,6 +399,7 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
                 } else {
                     count = $res["count"];
                 }
+                $scope.legislator_bills = [];
                 for (var i = 0; i < count; i++) {
                     bill_id = $results[i]["bill_id"];
                     title = $results[i]["official_title"];
@@ -472,6 +449,8 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
             $res = (response.data);
             if ($res["count"] > 0) {
                 $results = $res["results"];
+                $scope.bills_committes_active = [];
+                $scope.bills_committes_new = [];
                 for (var i = 0; i < $res["page"]["count"]; i++) {
 
                     billID = $results[i]["bill_id"];
@@ -519,6 +498,79 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
     }
 });
 
+
+//Committee Controller
+
+app.controller('full_committees_controller', function ($scope, $http, $element) {
+    $scope.comm = [];
+  //  $scope.commSenate = [];
+    //$scope.commJoint=[];
+//
+
+    $scope.loadComDetails = function () {
+        //console.log("Before calling AJAX");
+        var httpRequest = $http({
+            method: "GET",
+            url: 'index.php?call=getCommDefaultDetails',
+            //            url: 'hw8.php?call=getLegislatorDefaultDetails',
+            data: {
+                call: 'getCommDefaultDetails'
+            },
+        }).then(function mySucces(response) {
+            //console.log(response.data);
+            $res = (response.data);
+            if ($res["count"] > 0) {
+                $results = $res["results"];
+                 $scope.comm = [];
+                for (var i = 0; i < $res["count"]; i++) {
+
+                    commID = $results[i]["committee_id"];
+                    name = $results[i]["name"];
+                    pCommID= $results[i]["parent_committee_id"];
+                    cham=$results[i]["chamber"];
+                    contact=$results[i]["phone"];
+                    office="";
+                    if($results[i]["office"]==null)
+                        office="N.A";
+                    else
+                        office=$results[i]["office"];
+                    chamber_img_url="";
+                    if ($results[i]["chamber"] == "house") {
+                        
+                        chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/h.png";
+                    } else {
+                        
+                        chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/s.svg";
+                    }
+                                 
+                    newData = {
+                        "commID": commID,
+                        "name": name,
+                        "pCommID": pCommID,
+                        "cham": cham,
+                        "chamber_img_url": chamber_img_url,
+                        "contact": contact,
+                        "office": office
+                        };
+                    
+                        $scope.comm.push(newData);
+                    
+                }
+            }
+            console.log("After loading");
+        });
+    };
+   // $scope.pageChangeHandler = function (num) {
+     //   console.log('legislator page changed to ' + num);
+    //};
+    $scope.viewLegislatorDetails = function (bioguide_id) {
+        //$("#legislator_by_state_carousal").carousel(1);
+        //        alert("Bioguide ID is " + bioguide_id);
+        //        document.getElementById("legislator_by_state_carousal").carousel(1);        
+        slideToNext();
+        getFullLegislatorDetails(bioguide_id);
+    }
+});
 
 
 
