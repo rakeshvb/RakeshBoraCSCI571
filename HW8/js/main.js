@@ -7,6 +7,9 @@ $(document).ready(function () {
     });
 
     getLegislatorDetails();
+    getBillDetails();
+    getCommitteesDetails();
+    loadFavorites();
 });
 
 function slideToNext() {
@@ -108,17 +111,13 @@ app.controller('legis', function ($scope, $http, $element) {
     $scope.filterOptions = [
             'stateAbbr', 'chamber', 'name', 'district', 'state'
         ];
-    $scope.currentPage = 1;
-    $scope.pageSize = 10;
+    
     $scope.legislator_results = [];
 
-    //$scope.sort = function (keyname) {
-      //  $scope.sortKey = keyname; //set the sortKey to the param passed
-        //$scope.reverse = !$scope.reverse; //if true make it false and vice versa
-    //}
+    
 
     $scope.loadLegislatorDetails = function () {
-        console.log("Before calling AJAX");
+       // console.log("Before calling AJAX");
         var httpRequest = $http({
             method: "GET",
             url: 'index.php?call=getLegislatorDefaultDetails',
@@ -127,7 +126,7 @@ app.controller('legis', function ($scope, $http, $element) {
                 call: 'getLegislatorDefaultDetails'
             },
         }).then(function mySucces(response) {
-            console.log(response.data);
+            //console.log(response.data);
             $res = (response.data);
             if ($res["count"] > 0) {
                 $results = $res["results"];
@@ -176,7 +175,7 @@ app.controller('legis', function ($scope, $http, $element) {
                     $scope.legislator_results.push(newData);
                 }
             }
-            console.log("After loading");
+           // console.log("After loading");
         });
     };
    
@@ -230,7 +229,7 @@ app.controller('bill_controller', function ($scope, $http, $element) {
                 call: 'getBDetails'
             },
         }).then(function mySucces(response) {
-            console.log(response.data);
+           // console.log(response.data);
             $res = (response.data);
             if ($res["count"] > 0) {
                     $result = $res["results"][0];
@@ -238,7 +237,8 @@ app.controller('bill_controller', function ($scope, $http, $element) {
                     $scope.ID=$result["bill_id"];
                     $scope.tit=$result["official_title"];
                     $scope.bType=$result["bill_type"];
-                    $scope.name = $result["title"] + ", "+$result["last_name"] + ", " + $result["first_name"];
+                    $scope.name = $result["sponsor"]["title"] + ", "+$result["sponsor"]["last_name"] + ", " + $result["sponsor"]["first_name"];
+                    //$scope.name = $result["title"]
                     $scope.cham=$result["chamber"];
                     $scope.stat = "";
                     if($result["history"]["active"]==false)
@@ -271,7 +271,7 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
                 call: 'getLegislatorMemberDetails'
             },
         }).then(function mySucces(response) {
-            console.log(response.data);
+            //console.log(response.data);
             $res = (response.data);
             if ($res["count"] > 0) {
                 $result = $res["results"][0];
@@ -472,12 +472,14 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
         });
 
     };
-    $scope.pageChangeHandler = function (num) {
-        console.log('legislator page changed to ' + num);
-    };
+    
     $scope.viewLegislatorDetails = function (bioguide_id) {
                
         slideToNext();
+    }
+    $scope.addToFavLeg = function (legislator_image,party,name,chamber,state,email,bioguide_id) {
+        console.log("i worked on ng-click");
+        addToFavLeg(legislator_image,party,name,chamber,state,email,bioguide_id);
     }
 });
 //BILL CONTROLLER
@@ -487,7 +489,7 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
 
 
     $scope.loadBillDetails = function () {
-        console.log("Before calling AJAX");
+        
         var httpRequest = $http({
             method: "GET",
             url: 'index.php?call=getBillDefaultDetails',
@@ -496,7 +498,7 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
                 call: 'getBillDefaultDetails'
             },
         }).then(function mySucces(response) {
-            console.log(response.data);
+            
             $res = (response.data);
             if ($res["count"] > 0) {
                 $results = $res["results"];
@@ -534,19 +536,38 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
                         $scope.bills_committes_active.push(newData);
                 }
             }
-            console.log("After loading");
+            
         });
     };
-   // $scope.pageChangeHandler = function (num) {
-     //   console.log('legislator page changed to ' + num);
-    //};
+   
     $scope.viewMeDetails = function (bill_id) {
-        //$("#legislator_by_state_carousal").carousel(1);
-        //        alert("Bioguide ID is " + bioguide_id);
-        //        document.getElementById("legislator_by_state_carousal").carousel(1);        
+             
         slideToNext1();
         getFullBillDetails(bill_id);
     }
+    $scope.addToBillFav = function (ID,bType,tit,cham,introOn,name) {
+        console.log("i worked on ng-click");
+        //addToBillFav(ID,bType,tit,cham,introOn,name);
+
+        var favB = {
+        'ID': ID,
+        'bType': bType,
+        'tit': tit,
+        'cham': cham,
+        'introOn': introOn,
+        'name': name
+        
+        }
+        var billFav = JSON.parse(localStorage.getItem("billFav")) || [];
+        for (var i = 0; i < billFav.length; i++) {
+            if (billFav[i]["ID"] == ID) {
+                return;
+            }
+        }
+        billFav.push(favB);
+        localStorage.setItem("billFav", JSON.stringify(billFav));
+        loadFavorites();
+        }
 });
 
 
@@ -554,9 +575,7 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
 
 app.controller('full_committees_controller', function ($scope, $http, $element) {
     $scope.comm = [];
-  //  $scope.commSenate = [];
-    //$scope.commJoint=[];
-//
+  
 
     $scope.loadComDetails = function () {
         //console.log("Before calling AJAX");
@@ -580,6 +599,7 @@ app.controller('full_committees_controller', function ($scope, $http, $element) 
                     pCommID= $results[i]["parent_committee_id"];
                     cham=$results[i]["chamber"];
                     contact=$results[i]["phone"];
+                    subcommittee=$results[i]["subcommittee"];
                     office="";
                     if($results[i]["office"]==null)
                         office="N.A";
@@ -601,26 +621,45 @@ app.controller('full_committees_controller', function ($scope, $http, $element) 
                         "cham": cham,
                         "chamber_img_url": chamber_img_url,
                         "contact": contact,
-                        "office": office
+                        "office": office,
+                        "subcommittee":subcommittee
                         };
                     
                         $scope.comm.push(newData);
                     
                 }
             }
-            console.log("After loading");
+            
         });
     };
-   // $scope.pageChangeHandler = function (num) {
-     //   console.log('legislator page changed to ' + num);
-    //};
-    $scope.viewLegislatorDetails = function (bioguide_id) {
-        //$("#legislator_by_state_carousal").carousel(1);
-        //        alert("Bioguide ID is " + bioguide_id);
-        //        document.getElementById("legislator_by_state_carousal").carousel(1);        
-        slideToNext();
-        getFullLegislatorDetails(bioguide_id);
-    }
+   
+    //$scope.viewLegislatorDetails = function (bioguide_id) {
+              
+      //  slideToNext();
+        //getFullLegislatorDetails(bioguide_id);
+    //}
+    $scope.addToComFav = function (cham,commID,name,pCommID,subcommittee) {
+        console.log("i worked on ng-click");
+        //addToBillFav(ID,bType,tit,cham,introOn,name);
+
+        var favC = {
+        'cham': cham,
+        'commID': commID,
+        'name': name,
+        'pCommID': pCommID,
+        'subcommittee': subcommittee
+        
+        }
+        var comFav = JSON.parse(localStorage.getItem("comFav")) || [];
+        for (var i = 0; i < comFav.length; i++) {
+            if (comFav[i]["commID"] == commID) {
+                return;
+            }
+        }
+        comFav.push(favC);
+        localStorage.setItem("comFav", JSON.stringify(comFav));
+        loadFavorites();
+        }
 });
 
 
@@ -634,6 +673,166 @@ function getFormattedDate(date) {
     return month + '-' + day + '-' + year;
 }
 
+
+//favourite code goes here completely
+
+function addToFavLeg(legislator_image,party,name,chamber,state,email,bioguide_id) {
+    var favL = {
+        'legislator_image': legislator_image,
+        'party': party,
+        'name': name,
+        'chamber': chamber,
+        'state': state,
+        'email': email,
+        'bioguide_id' : bioguide_id
+    }
+    var legFav = JSON.parse(localStorage.getItem("legFav")) || [];
+    for (var i = 0; i < legFav.length; i++) {
+        if (legFav[i]["bioguide_id"] == bioguide_id) {
+            return;
+        }
+    }
+    legFav.push(favL);
+    localStorage.setItem("legFav", JSON.stringify(legFav));
+    loadFavorites();
+}
+
+
+function loadFavorites()
+{
+    var scope = angular.element(document.getElementById('favorites_div')).scope();
+    scope.FL();
+    scope.FB();
+    scope.FC();
+}
+
+//Favourite controller goes here
+
+app.controller('favorites_Controller', function ($scope, $http, $element, $sce) {
+    $scope.fav_leg = [];
+    $scope.fav_bills = [];
+    $scope.fav_committees = [];
+    $scope.FL = function () {
+        var legFav = JSON.parse(localStorage.getItem("legFav"));
+        if (legFav != null) {
+            $scope.fav_leg = [];
+            for (var i = 0; i < legFav.length; i++) {
+                legislator_image=legFav[i]["legislator_image"];
+                party=legFav[i]["party"];
+                cham=legFav[i]["chamber"];
+                state=legFav[i]["state"];
+                email=legFav[i]["email"];
+                name=legFav[i]["name"];
+                bioguide_id=legFav[i]["bioguide_id"];
+                if (party == 'R') {
+                    partyImg = "http://cs-server.usc.edu:45678/hw/hw8/images/r.png";
+                } else {
+                    partyImg = "http://cs-server.usc.edu:45678/hw/hw8/images/d.png";
+                }
+                chamber_img_url = "";
+                if (cham.toLocaleLowerCase() == "house") {
+                    
+                    chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/h.png";
+                } else {
+                    
+                    chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/s.svg";
+                }
+
+                var leg = {
+                    'bioguide_id': bioguide_id,
+                    'legislator_image': legislator_image,
+                    'party': party,
+                    'name': name,
+                    'cham': cham,
+                    'state': state,
+                    'email': email,
+                    'partyImg': partyImg,
+                    'chamber_img_url': chamber_img_url
+                }
+                $scope.fav_leg.push(leg);
+            }
+        }
+    }
+    $scope.FB = function () {
+        var bilFav = JSON.parse(localStorage.getItem("billFav"));
+        if (bilFav != null) {
+            $scope.fav_bills = [];
+            for (var i = 0; i < bilFav.length; i++) {
+                ID=bilFav[i]["ID"];
+                bType=bilFav[i]["bType"];
+                tit=bilFav[i]["tit"];
+                cham=bilFav[i]["cham"];
+                introOn=bilFav[i]["introOn"];
+                name=bilFav[i]["name"];
+                //bioguide_id=bilFav[i]["bioguide_id"];
+                
+                chamber_img_url = "";
+                if (cham.toLocaleLowerCase() == "house") {
+                    
+                    chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/h.png";
+                } else {
+                    
+                    chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/s.svg";
+                }
+
+                var bill = {
+                    'ID': ID,
+                    'bType': bType,
+                    'tit': tit,
+                    'name': name,
+                    'cham': cham,
+                    'introOn': introOn,
+                    'chamber_img_url': chamber_img_url
+                }
+                $scope.fav_bills.push(bill);
+            }
+        }
+    }
+    $scope.FC = function () {
+        var comFav = JSON.parse(localStorage.getItem("comFav"));
+        if (comFav != null) {
+            $scope.fav_committees = [];
+            for (var i = 0; i < comFav.length; i++) {
+                cham=comFav[i]["cham"];
+                commID=comFav[i]["commID"];
+                name=comFav[i]["name"];
+                pCommID=comFav[i]["pCommID"];
+                subcommittee=comFav[i]["subcommittee"];
+                chamber_img_url = "";
+                if (cham.toLocaleLowerCase() == "house") {
+                    
+                    chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/h.png";
+                } else {
+                    
+                    chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/s.svg";
+                }
+
+                var com = {
+                    'cham': cham,
+                    'commID': commID,
+                    'pCommID': pCommID,
+                    'subcommittee': subcommittee,
+                    'name':name,
+                    'chamber_img_url': chamber_img_url
+                }
+                $scope.fav_committees.push(com);
+            }
+        }
+    }
+    
+});
+
+
+
+
+
+
+
+
+
+
+
+//pagination code here after be carefull whule editing
 
 (function () {
 
