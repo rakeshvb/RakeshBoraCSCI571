@@ -34,18 +34,18 @@
         <div id="wrapper">
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav nav-stacked nav-default nav" id="menu">
-                    <li class="active" role="presentation">
-                    <a href="#lagislator_details_section" onclick="getLegislatorDetails()" aria-controls="lagislator_details_section" role="tab" data-toggle="tab"><span class="fa fa-user" aria-hidden="true"></span> Legislators</a>
+                    <li class="active" role="presentation" id="l">
+                    <a href="#legislator_details_section" onclick="getLegislatorDetails()" aria-controls="legislator_details_section" role="tab" data-toggle="tab"><span class="fa fa-user" aria-hidden="true"></span> Legislators</a>
                        
                 </li>
-                <li role="presentation">
+                <li role="presentation" id="b">
                     <a href="#bill_details_section" onclick="getBillDetails()" aria-controls="bill_details_section" role="tab" data-toggle="tab"><span class="fa fa-file-o" ></span> Bills</a>
                     
                 </li>
-                <li role="presentation">
+                <li role="presentation" id="c">
                     <a href="#committees_details_section" onclick="getCommitteesDetails()" aria-controls="committees_details_section" role="tab" data-toggle="tab"><span class="fa fa-sign-in" aria-hidden="true">Committees</a>
                 </li>
-                <li role="presentation">
+                <li role="presentation" id="f">
                     <a href="#favorites_details_section" onclick="loadFavorites()" aria-controls="favorites_details_section" role="tab" data-toggle="tab"><span class="fa fa-star"></span>Favorites</a>
                 </li>
                     
@@ -54,7 +54,7 @@
 
             <div id="output"  class="container-fluid xyz tab-content">
                 
-                <div role="tabpanel" class="tab-pane active" id="lagislator_details_section" ng-controller="legis">
+                <div role="tabpanel" class="tab-pane active" id="legislator_details_section" ng-controller="legis">
                     
                     <div class="row">
                         <div class="col-xs-1">
@@ -181,9 +181,9 @@
                                                                                     <td> <img ng-src="{{result.partyImg}}" height="25px" width="25px" /> </td>
                                                                                     <td>{{result.name}}</td>
                                                                                     <td><img ng-src="{{result.chamber_img_url}}" height="25px" width="25px" />{{result.chamber}}</td>
-                                                                                    <td>{{result.district}}</td>
+                                                                                    <td>District {{result.district}}</td>
                                                                                     <td>{{result.state}}</td>
-                                                                                    <div id="bioguide_id" style="display:none">should be bioguide id</div>
+                                                                                    
                                                                                     <td>
                                                                                         <input type="button" value="View Details" href="#legislator_by_state_carousal" ng-click="viewLegislatorDetails(result.bioguide_id)">
                                                                                         
@@ -236,9 +236,9 @@
                                                                                 <td> <img ng-src="{{result.partyImg}}" height="25px" width="25px" /> </td>
                                                                                 <td>{{result.name}}</td>
                                                                                 <td><img ng-src="{{result.chamber_img_url}}" height="25px" width="25px" />{{result.chamber}}</td>
-                                                                                <td>{{result.district}}</td>
+                                                                                <td>District {{result.district}}</td>
                                                                                 <td>{{result.state}}</td>
-                                                                                <div id="bioguide_id" style="display:none">should be bioguide id</div>
+                                                                                
                                                                                 <td>
                                                                                     <input type="button" value="View Details" href="#legislator_by_state_carousal" ng-click="viewLegislatorDetails(result.bioguide_id)">
                                                                                     
@@ -290,9 +290,9 @@
                                                                                 <td> <img ng-src="{{result.partyImg}}" height="25px" width="25px" /> </td>
                                                                                 <td>{{result.name}}</td>
                                                                                 <td><img ng-src="{{result.chamber_img_url}}" height="25px" width="25px" />{{result.chamber}}</td>
-                                                                                <td>{{result.district}}</td>
+                                                                                <td>District {{result.district}}</td>
                                                                                 <td>{{result.state}}</td>
-                                                                                <div id="bioguide_id" style="display:none">should be bioguide id</div>
+                                                                                
                                                                                 <td>
                                                                                     <input type="button" value="View Details" href="#legislator_by_state_carousal" ng-click="viewLegislatorDetails(result.bioguide_id)">
                                                                                 </td>
@@ -318,9 +318,9 @@
                                     <div id="full_legislator_controller_div" ng-controller="full_legislator_controller">
                                     <button href="#legislator_by_state_carousal" type="button" class="btn btn-default item1" aria-label="Left Align" onclick="slideToPrev()">
                                         <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                                    </button>Details
+                                    </button><span style="font-size:20px;">&nbspDetails</span>
                                     <button  type="button" class="btn btn-default item1" aria-label="Left Align" ng-click="addToFavLeg(legislator_image,party,name,chamber,state,email,bioguide_id)" style='float: right;'>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
                                     </button>
                                     <hr>
                                     
@@ -335,13 +335,14 @@
                                                             <tr><td>{{name}}</td></tr>
                                                             <tr><td><a href="mailto:{{email}}">{{email}}</a></td></tr>
                                                             <tr><td>{{chamber}}</td></tr>
-                                                            <tr><td>{{contact}}</td></tr>
+                                                            <tr><td>Contact: <a>{{contact}}</a></td></tr>
                                                             <tr><td><img ng-src="{{partyImg}}" width="25px" height="25px">{{party}}</td></tr>
                                                         
                                                     </table>
                                                 </div>
                                             </div>
                                             <div class="col-xs-6" >
+                                                <span style="font-size:20px;">Committees</span>
                                                 <table class="table">
                                                     <thead>
                                                         <th>Chamber</th>
@@ -389,30 +390,31 @@
                                                     </tr>
                                                     <tr>
                                                         <td>Fax</td>
-                                                        <td>{{fax}}</td>
+                                                        <td><a>{{fax}}</a></td>
                                                     </tr>
                                                     <tr>
                                                         <td>Birthday</td>
-                                                        <td>{{dob}}</td>
+                                                        <td>{{dob.toString('dddd, MMMM ,yyyy')}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Social Links</td>
                                                         <td>
-                                                            
+                                                            <span ng-show="twitter_link != null">
                                                                 <a href="{{twitter_link}}" target="_blank"><img src="http://cs-server.usc.edu:45678/hw/hw8/images/t.png" height="25px" width="25px"></a>
-                                                            
-                                                            
+                                                            </span>
+                                                            <span ng-show="facebook_link != null">
                                                                 <a href="{{facebook_link}}" target="_blank"><img src="http://cs-server.usc.edu:45678/hw/hw8/images/f.png" height="25px" width="25px"></a>
-                                                            
-                                                            
+                                                            </span>
+                                                            <span ng-show="website_link != null">                         
                                                                 <a href="{{website_link}}" target="_blank"><img src="http://cs-server.usc.edu:45678/hw/hw8/images/w.png" height="25px" width="25px"></a>
-                                                            
+                                                            </span>
                                                         </td>
                                                     </tr>
 
                                                 </table>
                                             </div>  
                                             <div class="col-xs-6">
+                                                <span style="font-size:20px;">Bills</span>
                                                 <table class="table">
                                                     <thead>
                                                         <th>Bill ID</th>
@@ -605,14 +607,14 @@
                             </div>
 
                             <div class="item">
-                                <div class="">
+                                
                                     <div id="full_bill_controller_div" ng-controller="bill_controller">
                                     <button href="#bill_details_section" type="button" class="btn btn-default item1" aria-label="Left Align" onclick="slideToPrev1()">
                                         <i class="fa fa-chevron-left" aria-hidden="true"></i>
                                     </button>
                                     Details
                                     <button type="button" class="btn btn-default item1" aria-label="Left Align" ng-click="addToBillFav(ID,bType,tit,cham,introOn,name)" style='float: right;'>
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
                                     </button>
                                     
                                         <div class="col-xs-6" >
@@ -666,7 +668,7 @@
                                         
 
                                     </div>
-                                </div>
+                                
                             
                             </div>
                         </div>
@@ -746,7 +748,7 @@
                                                                             <tbody>
                                                                                 <tr dir-paginate="result in comm | filter:{cham:'House'}| filter : com_search_text | itemsPerPage: 10" pagination-id="first5">
                                                                                     <td><button type="button" class="btn btn-default btn-md item1" aria-label="Left Align" ng-click="addToComFav(result.cham,result.commID,result.name,result.pCommID,result.subcommittee)">
-                                                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                                        <i class="fa fa-star" aria-hidden="true"></i>
                                                                                     </button></td>
                                                                                     <td><img ng-src="{{result.chamber_img_url}}" height="25px" width="25px" /><br>{{result.cham.charAt(0).toUpperCase() + result.cham.substr(1)}}</td>
                                                                                     <td>{{result.commID}}</td>
@@ -805,7 +807,7 @@
                                                                             <tr dir-paginate="result in comm | filter:{cham:'Senate'} | filter : com_search_text |  itemsPerPage: 10" pagination-id="first8">
                                                                                 
                                                                                     <td><button type="button" class="btn btn-default item1" aria-label="Left Align" ng-click="addToComFav(result.cham,result.commID,result.name,result.pCommID,result.subcommittee)">
-                                                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                                        <i class="fa fa-star" aria-hidden="true"></i>
                                                                                     </button></td>
                                                                                     <td>{{result.cham.charAt(0).toUpperCase() + result.cham.substr(1)}}</td>
                                                                                     <td>{{result.commID}}</td>
@@ -858,8 +860,8 @@
                                                                         <tbody>
                                                                             <tr dir-paginate="result in comm |filter:{cham:'Joint'}| filter : com_search_text | itemsPerPage: 10" pagination-id="first9">
                                                                                 
-                                                                                    <td><button type="button" class="btn btn-default item1" aria-label="Left Align" ng-click="aaddToComFav(result.cham,result.commID,result.name,result.pCommID,result.subcommittee)">
-                                                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                                    <td><button type="button" class="btn btn-default item1" aria-label="Left Align" ng-click="addToComFav(result.cham,result.commID,result.name,result.pCommID,result.subcommittee)">
+                                                                                        <i class="fa fa-star" aria-hidden="true"></i>
                                                                                     </button></td>
                                                                                     <td><img ng-src="{{result.chamber_img_url}}" height="25px" width="25px" />{{result.cham.charAt(0).toUpperCase() + result.cham.substr(1)}}</td>
                                                                                     <td>{{result.commID}}</td>
@@ -941,7 +943,7 @@
                                                 <tbody>
                                                     <tr ng-repeat="legislator in fav_leg">
                                                         <td>
-                                                            <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
+                                                            <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="delete('legFav',legislator.bioguide_id)">
                                                                 <span class="fa fa-trash" aria-hidden="true"></span>
                                                             </button>
                                                         </td>
@@ -952,8 +954,7 @@
                                                         <td>{{legislator.state}}</td>
                                                         <td><a href="mailto:{{legislator.email}}">{{legislator.email}}</a></td>
                                                         <td>
-                                                             <input type="button" value="View Details" href="#legislator_by_state_carousal" ng-click="viewLegislatorDetails(result.bioguide_id)">
-                                                                                        
+                                                             <input type="button" value="View Details" href="#legislator_by_state_carousal" ng-click="viewLegislatorDetails(legislator.bioguide_id)">                      
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -975,7 +976,7 @@
                                                 <tbody>
                                                     <tr ng-repeat="result in fav_bills">
                                                         <td>
-                                                            <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
+                                                            <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="delete('billFav',result.ID)">
                                                                 <span class="fa fa-trash" aria-hidden="true"></span>
                                                             </button>
                                                         </td>
@@ -1009,7 +1010,7 @@
                                                 <tbody>
                                                     <tr ng-repeat="result in fav_committees">
                                                         <td>
-                                                            <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="">
+                                                            <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="delete('comFav',result.commID)">
                                                                 <span class="fa fa-trash" aria-hidden="true"></span>
                                                             </button>
                                                         </td>
