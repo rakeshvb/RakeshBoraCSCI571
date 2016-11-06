@@ -12,7 +12,7 @@
 
 }
 #wrapper #menu {
-	width: 250px;
+	width: 15%;
 	visibility: visible;
 	-webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -55,7 +55,7 @@ ul {
 }
 .sidebar-nav {
     position: absolute;
-    width: 250px;
+    width: 15%;
     margin: 0;
     list-style: none;
     padding-top: 00px;
@@ -75,7 +75,7 @@ ul {
 #output
 {
 	position: relative;
-	margin-left: 250px;
+	margin-left: 15%;
 	margin-right: 0px;
 	-webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
