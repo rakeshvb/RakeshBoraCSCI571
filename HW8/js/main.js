@@ -140,8 +140,8 @@ app.controller('legis', function ($scope, $http, $element) {
        // console.log("Before calling AJAX");
         var httpRequest = $http({
             method: "GET",
-            url: 'index.php?call=getLegislatorDefaultDetails',
-            //            url: 'hw8.php?call=getLegislatorDefaultDetails',
+            url: 'http://csci571hw8.eaygexnyaw.us-west-2.elasticbeanstalk.com/index.php?call=getLegislatorDefaultDetails',
+            //            url: 'index.php?call=getLegislatorDefaultDetails',
             data: {
                 call: 'getLegislatorDefaultDetails'
             },
@@ -190,7 +190,8 @@ app.controller('legis', function ($scope, $http, $element) {
                         "state": stateVal,
                         "stateAbbr": state,
                         "chamber_img_url": chamber_img_url,
-                        "bioguide_id": $results[i]["bioguide_id"]
+                        "bioguide_id": $results[i]["bioguide_id"],
+                        "last_name" : $results[i]["last_name"]
                     };
                     $scope.legislator_results.push(newData);
                 }
@@ -243,8 +244,8 @@ app.controller('bill_controller', function ($scope, $http, $element) {
         //        console.log("Before calling AJAX");
         var httpRequest = $http({
             method: "GET",
-            url: 'index.php?call=getBDetails&bill_id=' + bill_id,
-            //            url: 'hw8.php?call=getLegislatorMemberDetails&bioguide_id=' + bioguide_id,
+            url: 'http://csci571hw8.eaygexnyaw.us-west-2.elasticbeanstalk.com/index.php?call=getBDetails&bill_id=' + bill_id,
+            //            url: 'index.php?call=getBDetails&bill_id=' + bioguide_id,
             data: {
                 call: 'getBDetails'
             },
@@ -265,10 +266,11 @@ app.controller('bill_controller', function ($scope, $http, $element) {
                         $scope.stat ="New";
                     else
                         $scope.stat ="Active";
-                    $scope.introOn=$result["introduced_on"];
+                    $scope.introOn=new Date($result["introduced_on"]);
                     $scope.conLink=$result["urls"]["congress"];
                     $scope.version=$result["last_version"]["version_name"];
                     $scope.pdf=$result["last_version"]["urls"]["pdf"];
+                    $scope.bollBill=bollBill(bill_id);
                 }
             } );
         };
@@ -276,7 +278,82 @@ app.controller('bill_controller', function ($scope, $http, $element) {
                
         slideToNext1();
     }
+    $scope.addToBillFav = function (ID,bType,tit,cham,introOn,name) {
+        console.log("i worked on ng-click");
+        //addToBillFav(ID,bType,tit,cham,introOn,name);
+        $scope.bollBill = true;
+        var favB = {
+        'ID': ID,
+        'bType': bType,
+        'tit': tit,
+        'cham': cham,
+        'introOn': introOn,
+        'name': name
+        
+        }
+        var billFav = JSON.parse(localStorage.getItem("billFav")) || [];
+        for (var i = 0; i < billFav.length; i++) {
+            if (billFav[i]["ID"] == ID) {
+                return;
+            }
+        }
+        billFav.push(favB);
+        localStorage.setItem("billFav", JSON.stringify(billFav));
+        loadFavorites();
+        }
+    $scope.removeFavBill=function(ID){
+        var lst = JSON.parse(localStorage.getItem("billFav")) || [];
+        for (var i = 0; i < lst.length; i++) {
+            if (lst[i]["ID"] == ID) {
+                lst.splice(i, 1);
+            }
+        }
+        localStorage.setItem("billFav", JSON.stringify(lst));
+        var scope = angular.element(document.getElementById('full_bill_controller_div')).scope();
+        scope.loadBillDetails(ID);
+    }
+    
     });
+
+function bollLeg(bioguide_id){
+    var lst = JSON.parse(localStorage.getItem("legFav"));
+    if (lst != null) {
+        for (var i = 0; i < lst.length; i++) {
+            if (lst[i]["bioguide_id"] == bioguide_id) {
+                return true;
+            }
+        }
+        return false;
+    } else {
+        return false;
+    }
+}
+function bollBill(bill_id){
+    var lst = JSON.parse(localStorage.getItem("billFav"));
+    if (lst != null) {
+        for (var i = 0; i < lst.length; i++) {
+            if (lst[i]["ID"] == bill_id) {
+                return true;
+            }
+        }
+        return false;
+    } else {
+        return false;
+    }
+}
+function bollComm(com_id){
+    var lst = JSON.parse(localStorage.getItem("comFav"));
+    if (lst != null) {
+        for (var i = 0; i < lst.length; i++) {
+            if (lst[i]["commID"] == com_id) {
+                return true;
+            }
+        }
+        return false;
+    } else {
+        return false;
+    }
+}
 
 app.controller('full_legislator_controller', function ($scope, $http, $element) {
     $scope.legislator_committes = [];
@@ -285,8 +362,8 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
         //        console.log("Before calling AJAX");
         var httpRequest = $http({
             method: "GET",
-            url: 'index.php?call=getLegislatorMemberDetails&bioguide_id=' + bioguide_id,
-            //            url: 'hw8.php?call=getLegislatorMemberDetails&bioguide_id=' + bioguide_id,
+            url: 'http://csci571hw8.eaygexnyaw.us-west-2.elasticbeanstalk.com/index.php?call=getLegislatorMemberDetails&bioguide_id=' + bioguide_id,
+            //            url: 'index.php?call=getLegislatorMemberDetails&bioguide_id=' + bioguide_id,
             data: {
                 call: 'getLegislatorMemberDetails'
             },
@@ -342,19 +419,19 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
 
                 if ($result.hasOwnProperty("term_start") == true) {
                     if ($result["term_start"] != null) {
-                        $scope.start_term = $result["term_start"];
+                        $scope.start_term = new Date($result["term_start"]);
                     } else {
                         $scope.start_term = "N.A.";
                     }
                 }
                 if ($result.hasOwnProperty("term_end") == true) {
                     if ($result["term_end"] != null) {
-                        $scope.end_term = $result["term_end"];
+                        $scope.end_term = new Date($result["term_end"]);
                     } else {
                         $scope.end_term = "N.A.";
                     }
                 }
-
+                $scope.bollLeg = bollLeg(bioguide_id);
                 start = (new Date($scope.start_term).getTime() / 1000);
                 start_date = (new Date($scope.start_term));
                 $scope.start_term = getFormattedDate(start_date);
@@ -363,7 +440,8 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
                 $scope.end_term = getFormattedDate(end_date);
                 now = new Date() / 1000;
                 $scope.term_progress =Math.round((now - start) / (end - start) * 100);
-
+                $scope.end_term = new Date($result["term_end"]);
+                $scope.start_term = new Date($result["term_start"]);
                 if ($result.hasOwnProperty("office") == true) {
                     if ($result["office"] != null) {
                         $scope.office_address = $result["office"];
@@ -389,7 +467,7 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
 
                 if ($result.hasOwnProperty("birthday") == true) {
                     if ($result["birthday"] != null) {
-                        $scope.dob = getFormattedDate(new Date($result["birthday"])).toString('dddd, MMMM ,yyyy');
+                        $scope.dob = new Date($result["birthday"]);
                     } else {
                         $scope.dob = "N.A.";
                     }
@@ -421,8 +499,8 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
         $scope.legislator_committees = [];
         var httpRequest = $http({
             method: "GET",
-                        url: 'index.php?call=getCommitteesOfMember&bioguide_id=' + bioguide_id,
-//            url: 'hw8.php?call=getCommitteesOfMember&bioguide_id=' + bioguide_id,
+                        url: 'http://csci571hw8.eaygexnyaw.us-west-2.elasticbeanstalk.com/index.php?call=getCommitteesOfMember&bioguide_id=' + bioguide_id,
+//            url: 'index.php?call=getCommitteesOfMember&bioguide_id=' + bioguide_id,
             data: {
                 call: 'getCommitteesOfMember'
             },
@@ -456,8 +534,8 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
         $scope.legislator_bills = [];
         var httpRequest = $http({
             method: "GET",
-                        url: 'index.php?call=getBillsOfMember&bioguide_id=' + bioguide_id,
-//            url: 'hw8.php?call=getBillsOfMember&bioguide_id=' + bioguide_id,
+                        url: 'http://csci571hw8.eaygexnyaw.us-west-2.elasticbeanstalk.com/index.php?call=getBillsOfMember&bioguide_id=' + bioguide_id,
+//            url: 'index.php?call=getBillsOfMember&bioguide_id=' + bioguide_id,
             data: {
                 call: 'getBillsOfMember'
             },
@@ -499,7 +577,20 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
     }
     $scope.addToFavLeg = function (legislator_image,party,name,chamber,state,email,bioguide_id) {
         console.log("i worked on ng-click");
+        $scope.bollLeg=true;
         addToFavLeg(legislator_image,party,name,chamber,state,email,bioguide_id);
+    }
+    $scope.removeFavLeg =function(bioguide_id){
+        var lst = JSON.parse(localStorage.getItem("legFav")) || [];
+        for (var i = 0; i < lst.length; i++) {
+            if (lst[i]["bioguide_id"] == bioguide_id) {
+                lst.splice(i, 1);
+            }
+        }
+        localStorage.setItem("legFav", JSON.stringify(lst));
+        var scope = angular.element(document.getElementById('full_legislator_controller_div')).scope();
+        scope.loadLegislatorDetails(bioguide_id);
+        loadFavorites();
     }
 });
 //BILL CONTROLLER
@@ -524,6 +615,7 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
                 $results = $res["results"];
                 $scope.bills_committes_active = [];
                 $scope.bills_committes_new = [];
+
                 for (var i = 0; i < $res["page"]["count"]; i++) {
 
                     billID = $results[i]["bill_id"];
@@ -538,7 +630,7 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
                         
                         chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/s.svg";
                     }
-                    introOn=$results[i]["introduced_on"];
+                    introOn=new Date($results[i]["introduced_on"]);
                     sponsor=$results[i]["sponsor"]["title"]+","+$results[i]["sponsor"]["last_name"]+","+$results[i]["sponsor"]["first_name"];
                      active=$results[i]["history"]["active"];                   
                     newData = {
@@ -565,29 +657,7 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
         slideToNext1();
         getFullBillDetails(bill_id);
     }
-    $scope.addToBillFav = function (ID,bType,tit,cham,introOn,name) {
-        console.log("i worked on ng-click");
-        //addToBillFav(ID,bType,tit,cham,introOn,name);
-
-        var favB = {
-        'ID': ID,
-        'bType': bType,
-        'tit': tit,
-        'cham': cham,
-        'introOn': introOn,
-        'name': name
-        
-        }
-        var billFav = JSON.parse(localStorage.getItem("billFav")) || [];
-        for (var i = 0; i < billFav.length; i++) {
-            if (billFav[i]["ID"] == ID) {
-                return;
-            }
-        }
-        billFav.push(favB);
-        localStorage.setItem("billFav", JSON.stringify(billFav));
-        loadFavorites();
-        }
+    
 });
 
 
@@ -601,7 +671,7 @@ app.controller('full_committees_controller', function ($scope, $http, $element) 
         //console.log("Before calling AJAX");
         var httpRequest = $http({
             method: "GET",
-            url: 'index.php?call=getCommDefaultDetails',
+            url: 'http://csci571hw8.eaygexnyaw.us-west-2.elasticbeanstalk.com/index.php?call=getCommDefaultDetails',
             //            url: 'hw8.php?call=getLegislatorDefaultDetails',
             data: {
                 call: 'getCommDefaultDetails'
@@ -612,6 +682,7 @@ app.controller('full_committees_controller', function ($scope, $http, $element) 
             if ($res["count"] > 0) {
                 $results = $res["results"];
                  $scope.comm = [];
+                 //commID="";
                 for (var i = 0; i < $res["count"]; i++) {
 
                     commID = $results[i]["committee_id"];
@@ -620,11 +691,13 @@ app.controller('full_committees_controller', function ($scope, $http, $element) 
                     cham=$results[i]["chamber"];
                     contact=$results[i]["phone"];
                     subcommittee=$results[i]["subcommittee"];
+                    bollCom = bollComm(commID);
                     office="";
                     if($results[i]["office"]==null)
                         office="N.A";
                     else
                         office=$results[i]["office"];
+                    
                     chamber_img_url="";
                     if ($results[i]["chamber"] == "house") {
                         
@@ -642,12 +715,14 @@ app.controller('full_committees_controller', function ($scope, $http, $element) 
                         "chamber_img_url": chamber_img_url,
                         "contact": contact,
                         "office": office,
-                        "subcommittee":subcommittee
+                        "subcommittee":subcommittee,
+                        "bollCom":bollCom
                         };
                     
                         $scope.comm.push(newData);
                     
                 }
+                
             }
             
         });
@@ -662,7 +737,7 @@ app.controller('full_committees_controller', function ($scope, $http, $element) 
                 $(".fa-star-o").css("color", "yellow");
 
     */
-        
+        //$scope.bollCom = true;
         //
         var favC = {
         'cham': cham,
@@ -687,14 +762,31 @@ app.controller('full_committees_controller', function ($scope, $http, $element) 
                     $scope.FB();
                     $scope.FC();
                 }*/
+                $scope.comm[i]["bollCom"] = true;
                 return;
             }
         }
         //$(".fa fa-star").css("color", "yellow");
         comFav.push(favC);
         localStorage.setItem("comFav", JSON.stringify(comFav));
+        var scope = angular.element(document.getElementById('commi_controller_div')).scope();
+        scope.loadComDetails();
         loadFavorites();
         }
+    $scope.removecom=function(commID){
+        var lst = JSON.parse(localStorage.getItem("comFav")) || [];
+        for (var i = 0; i < lst.length; i++) {
+            if (lst[i]["commID"] == commID) {
+                $scope.comm[i]["bollCom"] = false;
+                lst.splice(i, 1);
+            }
+        }
+        localStorage.setItem("comFav", JSON.stringify(lst));
+        var scope = angular.element(document.getElementById('commi_controller_div')).scope();
+        scope.loadComDetails();
+        loadFavorites();
+    }
+    
 });
 
 
@@ -797,7 +889,7 @@ app.controller('favorites_Controller', function ($scope, $http, $element, $sce) 
                 bType=bilFav[i]["bType"];
                 tit=bilFav[i]["tit"];
                 cham=bilFav[i]["cham"];
-                introOn=bilFav[i]["introOn"];
+                introOn=new Date(bilFav[i]["introOn"]);
                 name=bilFav[i]["name"];
                 //bioguide_id=bilFav[i]["bioguide_id"];
                 
