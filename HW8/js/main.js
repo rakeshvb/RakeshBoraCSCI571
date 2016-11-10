@@ -5,12 +5,16 @@ $(document).ready(function () {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
-    localStorage.clear();
+
+    //localStorage.clear();
     getLegislatorDetails();
     getBillDetails();
     getCommitteesDetails();
     loadFavorites();
+
+
 });
+
 
 function slideToNext() {
     $("#legislator_by_state_carousal").carousel(1);
@@ -166,7 +170,7 @@ app.controller('legis', function ($scope, $http, $element) {
                         if ($results[i]["district"] == null) {
                             districtVal = "N.A.";
                         } else {
-                            districtVal = $results[i]["district"];
+                            districtVal = "District "+$results[i]["district"];
                         }
                     } else {
                         districtVal = "N.A.";
@@ -216,6 +220,7 @@ function getLegislatorDetails() {
 function getBillDetails() {
     var scope = angular.element(document.getElementById('bill_controller_div')).scope();
     scope.loadBillDetails();
+    scope.loadBillDetails1();
 }
 //getCommitteesDetails
 
@@ -388,9 +393,9 @@ app.controller('full_legislator_controller', function ($scope, $http, $element) 
 
                 if ($result.hasOwnProperty("chamber") == true) {
                     if ($result["chamber"] != null) {
-                        $scope.chamber = "Chamber: " + $result["chamber"];
+                        $scope.chamber =$result["chamber"];
                     } else {
-                        $scope.chamber = "Chamber: N.A.";
+                        $scope.chamber = "N.A.";
                     }
                 }
 
@@ -603,8 +608,10 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
         
         var httpRequest = $http({
             method: "GET",
-            url: 'index.php?call=getBillDefaultDetails',
-            //            url: 'hw8.php?call=getLegislatorDefaultDetails',
+            url: 'http://csci571hw8.eaygexnyaw.us-west-2.elasticbeanstalk.com/index.php?call=getBillDefaultDetails',
+            //            url: 'index.php?call=getBillDefaultDetails',
+            //http://congress.api.sunlightfoundation.com/bills?apikey=b8ba30d18f3b48259227944edff23ca3&history.active=true&per_page=50
+            //http://congress.api.sunlightfoundation.com/bills?apikey=b8ba30d18f3b48259227944edff23ca3&history.active=false&per_page=50
             data: {
                 call: 'getBillDefaultDetails'
             },
@@ -614,6 +621,61 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
             if ($res["count"] > 0) {
                 $results = $res["results"];
                 $scope.bills_committes_active = [];
+                //$scope.bills_committes_new = [];
+
+                for (var i = 0; i < $res["page"]["count"]; i++) {
+
+                    billID = $results[i]["bill_id"];
+                    billType = $results[i]["bill_type"];
+                    billTitle= $results[i]["official_title"];
+                    cham=$results[i]["chamber"];
+                    chamber_img_url="";
+                    if ($results[i]["chamber"] == "house") {
+                        
+                        chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/h.png";
+                    } else {
+                        
+                        chamber_img_url = "http://cs-server.usc.edu:45678/hw/hw8/images/s.svg";
+                    }
+                    introOn=new Date($results[i]["introduced_on"]);
+                    sponsor=$results[i]["sponsor"]["title"]+","+$results[i]["sponsor"]["last_name"]+","+$results[i]["sponsor"]["first_name"];
+                     active=$results[i]["history"]["active"];                   
+                    newData = {
+                        "billID": billID,
+                        "billType": billType,
+                        "billTitle": billTitle,
+                        "cham": cham,
+                        "chamber_img_url": chamber_img_url,
+                        "introOn": introOn,
+                        "sponsor": sponsor
+                        };
+                    //if(active==false)
+                      //  $scope.bills_committes_new.push(newData);
+                    //else
+                        $scope.bills_committes_active.push(newData);
+                }
+            }
+            
+        });
+
+        };
+        $scope.loadBillDetails1 = function () {
+        
+        var httpRequest = $http({
+            method: "GET",
+            url: 'http://csci571hw8.eaygexnyaw.us-west-2.elasticbeanstalk.com/index.php?call=getBillDefaultDetails1',
+            //            url: 'index.php?call=getBillDefaultDetails',
+            //http://congress.api.sunlightfoundation.com/bills?apikey=b8ba30d18f3b48259227944edff23ca3&history.active=true&per_page=50
+            //http://congress.api.sunlightfoundation.com/bills?apikey=b8ba30d18f3b48259227944edff23ca3&history.active=false&per_page=50
+            data: {
+                call: 'getBillDefaultDetails1'
+            },
+        }).then(function mySucces(response) {
+            
+            $res = (response.data);
+            if ($res["count"] > 0) {
+                $results = $res["results"];
+                //$scope.bills_committes_active = [];
                 $scope.bills_committes_new = [];
 
                 for (var i = 0; i < $res["page"]["count"]; i++) {
@@ -642,14 +704,16 @@ app.controller('full_bills_controller', function ($scope, $http, $element) {
                         "introOn": introOn,
                         "sponsor": sponsor
                         };
-                    if(active==false)
+                    //if(active==false)
                         $scope.bills_committes_new.push(newData);
-                    else
-                        $scope.bills_committes_active.push(newData);
+                    //else
+                     //   $scope.bills_committes_active.push(newData);
                 }
             }
             
         });
+
+        
     };
    
     $scope.viewMeDetails = function (bill_id) {
