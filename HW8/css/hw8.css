@@ -1,7 +1,11 @@
 .container-fluid
 {
-	margin-bottom: -20px;
+	margin-bottom: 0px;
 	padding-bottom: 0px;
+}
+
+body{
+    overflow: hidden;
 }
 
 .sidebar-nav
@@ -82,6 +86,8 @@ ul {
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 	width: auto;
+    overflow: scroll;
+    height: 100vh;
 }
 #wrapper.toggled #output 
 {
@@ -98,9 +104,104 @@ ul {
     width:25px;
 }
 
+#wrapper.toggled .hideMe {
+    
+    visibility: hidden;
 
+}
 
 .progress-bar {
     background-color: green;
+}
+
+@media (max-device-width: 885px) {
+    #wrapper #menu {
+        width: 12%;
+    }
+    .sidebar-nav {
+        width: 12%;
+    }
+    #output {
+        position: relative;
+        margin-left: 12%;
+    }
+    .hideMe{
+        visibility: hidden;
+        width: 0px;
+    }    
+    #menu li {
+        text-align: center;
+    }
+    .pad
+    {
+        padding: 6px;
+    }
+    .pp
+    {
+    padding: 4px;
+    }
+    .ll{
+        white-space: normal;
+    }
+}
+@media (min-width: 885px) {
+    #wrapper #menu {
+        width: 12%;
+    }
+    .sidebar-nav {
+        width: 12%;
+    }
+    #output {
+        position: relative;
+        margin-left: 12%;
+    }
+    .hideMe{
+        visibility: visible;
+    }
+    .pp
+    {
+    padding: 10px;
+    }
+}
+
+.navbar{
+    min-height: 0;
+    margin-bottom: 0px;
+}
+
+.nav>li>a {
+        padding: 10px 10px;
+}
+ 
+.h3 .lol{
+    font-size: 20px;
+}
+.sidebar-nav li {
+    line-height:0px;
+}
+.fa-star {
+    color: yellow;
+}
+.sidebar-nav li:active {
+    color: white;
+    background-color: black;
+}
+.sidebar-nav li a:active {
+    color: white;
+    background-color: black;
+}
+
+@media only screen and (max-width: 885px) {
+        .one{
+            display: none;
+        }
+        .bor{
+            border:1px solid #ddd;
+        }
+    }
+
+.change
+{
+    color: inherit;
 }
 
