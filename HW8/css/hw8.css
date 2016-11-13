@@ -114,7 +114,7 @@ ul {
     background-color: green;
 }
 
-@media (max-device-width: 885px) {
+@media (max-width: 885px) {
     #wrapper #menu {
         width: 12%;
     }
@@ -128,20 +128,21 @@ ul {
     .hideMe{
         visibility: hidden;
         width: 0px;
+        font-size: 0px;
     }    
     #menu li {
         text-align: center;
     }
-    .pad
-    {
-        padding: 6px;
-    }
+    
     .pp
     {
     padding: 4px;
     }
     .ll{
         white-space: normal;
+    }
+    .tt{
+        table-layout: auto;
     }
 }
 @media (min-width: 885px) {
@@ -161,6 +162,9 @@ ul {
     .pp
     {
     padding: 10px;
+    }
+    .tt{
+        table-layout: fixed;
     }
 }
 
@@ -183,11 +187,11 @@ ul {
     color: yellow;
 }
 .sidebar-nav li:active {
-    color: white;
+    
     background-color: black;
 }
 .sidebar-nav li a:active {
-    color: white;
+   
     background-color: black;
 }
 
@@ -204,4 +208,18 @@ ul {
 {
     color: inherit;
 }
+.dust:hover{
+    background:red;
+}
+.fa-trash:hover{
+    color: red;
+}
 
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+        border-bottom-color: #DDDDDD;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: white;
+}
