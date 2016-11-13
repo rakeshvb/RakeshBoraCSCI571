@@ -7,8 +7,8 @@
 
 	if($_GET["call"]=="getLegislatorDefaultDetails")
 	{
-		$url="http://congress.api.sunlightfoundation.com/legislators?apikey=b8ba30d18f3b48259227944edff23ca3&per_page=all";
-
+		$url="http://104.198.0.197:8080/legislators?apikey=b8ba30d18f3b48259227944edff23ca3&per_page=all";
+		// http://104.198.0.197:8080/legislators?apikey=b8ba30d18f3b48259227944edff23ca3&per_page=all
 		//echo $url;
 		$json=file_get_contents($url);
 		
@@ -37,8 +37,17 @@
 
 	else if($_GET["call"]=="getBillDefaultDetails")
 	{
-		$url="http://congress.api.sunlightfoundation.com/bills?apikey=b8ba30d18f3b48259227944edff23ca3&per_page=50";
-
+		$url="http://104.198.0.197:8080/bills?apikey=b8ba30d18f3b48259227944edff23ca3&history.active=true&last_version.urls.pdf__exists=true&per_page=50";
+		//http://104.198.0.197:8080/bills?apikey=b8ba30d18f3b48259227944edff23ca3&history.active=true&per_page=50
+		//echo $url;
+		$json=file_get_contents($url);
+		
+		echo $json;
+	}
+	else if($_GET["call"]=="getBillDefaultDetails1")
+	{
+		$url="http://104.198.0.197:8080/bills?apikey=b8ba30d18f3b48259227944edff23ca3&history.active=false&last_version.urls.pdf__exists=true&per_page=50";
+		//http://104.198.0.197:8080/bills?apikey=b8ba30d18f3b48259227944edff23ca3&history.active=false&per_page=50
 		//echo $url;
 		$json=file_get_contents($url);
 		
@@ -46,8 +55,9 @@
 	}
 	else if($_GET["call"]=="getCommDefaultDetails")
 	{
-		$url="http://congress.api.sunlightfoundation.com/committees?apikey=b8ba30d18f3b48259227944edff23ca3&per_page=all";
 
+		$url="http://104.198.0.197:8080/committees?apikey=b8ba30d18f3b48259227944edff23ca3&per_page=all";
+		//http://104.198.0.197:8080/committees?apikey=b8ba30d18f3b48259227944edff23ca3&per_page=all
 		//echo $url;
 		$json=file_get_contents($url);
 		
@@ -56,8 +66,8 @@
 }
 function getBillsOfMember($bioguide_id){
     
-	$url="http://congress.api.sunlightfoundation.com/bills?apikey=b8ba30d18f3b48259227944edff23ca3&sponsor_id=".$bioguide_id."";
-
+	$url="http://104.198.0.197:8080/bills?apikey=b8ba30d18f3b48259227944edff23ca3&sponsor_id=".$bioguide_id."&per_page=5";
+		//http://104.198.0.197:8080/bills?apikey=b8ba30d18f3b48259227944edff23ca3&sponsor_id=D000626&per_page=5
 		//echo $url;
 		$json=file_get_contents($url);
 		
@@ -69,9 +79,10 @@ function getBillsOfMember($bioguide_id){
 
 
 function getBDetails($bid){
-    $url="http://congress.api.sunlightfoundation.com/bills?apikey=b8ba30d18f3b48259227944edff23ca3&bill_id=".$bid."";
+    $url="http://104.198.0.197:8080/bills?apikey=b8ba30d18f3b48259227944edff23ca3&bill_id=".$bid."";
 
-		//echo $url;http://congress.api.sunlightfoundation.com/bills?apikey=1a96a93a893e4974a6c387cadad7e403&bill_id=hr5929-114
+		//echo $url;
+		//http://104.198.0.197:8080/bills?apikey=b8ba30d18f3b48259227944edff23ca3&bill_id=sconres25-114
 		$json=file_get_contents($url);
 		
 		return $json;
@@ -80,7 +91,8 @@ function getBDetails($bid){
 function getLegislatorMemberDetails($bioguide_id){
 
 	//$bid=$_GET['bioguide_id']
-		$url="http://congress.api.sunlightfoundation.com/legislators?apikey=b8ba30d18f3b48259227944edff23ca3&bioguide_id=".$bioguide_id."&all_legislators=true";
+		$url="http://104.198.0.197:8080/legislators?apikey=b8ba30d18f3b48259227944edff23ca3&bioguide_id=".$bioguide_id."&all_legislators=true";
+		//http://104.198.0.197:8080/legislators?apikey=b8ba30d18f3b48259227944edff23ca3&bioguide_id=D000626&all_legislators=true
 
 		//echo $url;
 		$json=file_get_contents($url);
@@ -94,8 +106,8 @@ function getLegislatorMemberDetails($bioguide_id){
 function getCommitteesOfMember($bioguide_id){
 
 
-	$url="http://congress.api.sunlightfoundation.com/committees?apikey=b8ba30d18f3b48259227944edff23ca3&member_ids=".$bioguide_id."";
-
+	$url="http://104.198.0.197:8080/committees?apikey=b8ba30d18f3b48259227944edff23ca3&member_ids=".$bioguide_id."&per_page=5";
+		//http://104.198.0.197:8080/committees?apikey=b8ba30d18f3b48259227944edff23ca3&member_ids=D000626&per_page=5
 		//echo $url;
 		$json=file_get_contents($url);
 		
